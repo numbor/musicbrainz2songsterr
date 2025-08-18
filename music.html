@@ -387,21 +387,21 @@
         <!-- Favorites Menu (overlay) -->
         <div id="favorites-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
             <div class="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[80vh] flex flex-col">
-                <div class="flex items-center justify-between p-6 border-b border-gray-200">
-                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                        <i class="fas fa-heart text-red-500 mr-3"></i>Your Favorites
+                <div class="flex items-center justify-between p-4 border-b border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                        <i class="fas fa-heart text-red-500 mr-2"></i>Your Favorites
                     </h2>
-                    <button id="close-favorites" class="text-gray-500 hover:text-gray-700 text-2xl">
+                    <button id="close-favorites" class="text-gray-500 hover:text-gray-700 text-xl">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="flex-1 overflow-y-auto p-6">
+                <div class="flex-1 overflow-y-auto p-4">
                     <div id="favorites-list">
                         <!-- Favorites list populated by JS -->
                     </div>
-                    <div id="no-favorites" class="text-center text-gray-500 py-20 hidden">
-                        <i class="fas fa-heart text-6xl mb-4 text-gray-300"></i>
-                        <p class="text-xl mb-2">No favorites yet</p>
+                    <div id="no-favorites" class="text-center text-gray-500 py-16 hidden">
+                        <i class="fas fa-heart text-5xl mb-3 text-gray-300"></i>
+                        <p class="text-lg mb-1">No favorites yet</p>
                         <p class="text-sm">Add your favorite songs by clicking the hearts!</p>
                     </div>
                 </div>
@@ -896,28 +896,28 @@
 
             let html = '';
             Object.keys(groupedFavorites).forEach(artist => {
-                html += `<div class="mb-6">
-                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
-                        <i class="fas fa-user mr-2 text-blue-500"></i>${artist}
+                html += `<div class="mb-4">
+                    <h3 class="text-base font-semibold text-gray-800 mb-2 flex items-center">
+                        <i class="fas fa-user mr-2 text-blue-500 text-sm"></i>${artist}
                     </h3>`;
                 
                 Object.keys(groupedFavorites[artist]).forEach(album => {
-                    html += `<div class="ml-4 mb-4">
-                        <h4 class="text-md font-semibold text-gray-700 mb-2 flex items-center">
-                            <i class="fas fa-compact-disc mr-2 text-green-500"></i>${album}
+                    html += `<div class="ml-3 mb-3">
+                        <h4 class="text-sm font-medium text-gray-700 mb-1 flex items-center">
+                            <i class="fas fa-compact-disc mr-1 text-green-500 text-xs"></i>${album}
                         </h4>
-                        <div class="ml-4 space-y-2">`;
+                        <div class="ml-3 space-y-1">`;
                     
                     groupedFavorites[artist][album].forEach(favorite => {
-                        html += `<div class="flex items-center justify-between p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                            <div class="flex items-center space-x-3 flex-1 cursor-pointer" onclick="openSongsterr('${favorite.title.replace(/'/g, "\\'")}')">
-                                <i class="fas fa-play text-blue-500"></i>
-                                <span class="text-gray-800">${favorite.title}</span>
+                        html += `<div class="flex items-center justify-between p-2 bg-gray-50 rounded hover:bg-gray-100 transition-colors">
+                            <div class="flex items-center space-x-2 flex-1 cursor-pointer min-w-0" onclick="openSongsterr('${favorite.title.replace(/'/g, "\\'")}')">
+                                <i class="fas fa-play text-blue-500 text-xs flex-shrink-0"></i>
+                                <span class="text-gray-800 text-sm truncate" title="${favorite.title}">${favorite.title}</span>
                             </div>
-                            <button class="text-red-500 hover:text-red-700 p-1" 
+                            <button class="text-red-500 hover:text-red-700 p-1 flex-shrink-0" 
                                     onclick="removeFavoriteFromList('${favorite.title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}', '${album.replace(/'/g, "\\'")}')"
                                     title="Remove from favorites">
-                                <i class="fas fa-trash-alt"></i>
+                                <i class="fas fa-trash-alt text-xs"></i>
                             </button>
                         </div>`;
                     });
