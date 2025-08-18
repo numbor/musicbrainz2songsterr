@@ -1,150 +1,233 @@
 # MusicBrainz Songsterr Player
 
-Un'applicazione web interattiva per esplorare la musica attraverso le API di MusicBrainz e accedere alle tablature su Songsterr.
+An interactive web application for exploring music through MusicBrainz APIs and accessing guitar tabs on Songsterr.
 
-## ✨ Caratteristiche
+## ✨ Features
 
-- **Ricerca artisti**: Trova artisti musicali utilizzando le API di MusicBrainz
-- **Esplorazione album**: Naviga attraverso la discografia completa degli artisti
-- **Lista brani**: Visualizza tutti i brani di ogni album
-- **Integrazione Songsterr**: Accesso diretto alle tablature dei brani su Songsterr
-- **Design responsive**: Interfaccia ottimizzata per desktop e dispositivi mobili
-- **UI moderna**: Design elegante con Tailwind CSS e Font Awesome
+- **Artist Search**: Find musical artists using MusicBrainz APIs with real-time suggestions
+- **Genre Search**: Discover artists by music genre
+- **Album Exploration**: Browse through artists' complete discographies
+- **Track Listings**: View all tracks from any album
+- **Favorites System**: Save and manage your favorite tracks with persistent storage
+- **Theme Switcher**: Toggle between light and dark themes with automatic persistence
+- **Songsterr Integration**: Direct access to guitar tabs and sheet music
+- **Responsive Design**: Optimized interface for desktop and mobile devices
+- **Modern UI**: Elegant design with Tailwind CSS and Font Awesome icons
 
-## 🚀 Demo
+## 🚀 Interface Overview
 
-L'applicazione presenta un'interfaccia a tre colonne:
-1. **Colonna Artisti**: Risultati della ricerca artisti
-2. **Colonna Album**: Album dell'artista selezionato
-3. **Colonna Brani**: Brani dell'album selezionato
+The application features a clean three-column layout:
+1. **Artists Column**: Search results and artist listings
+2. **Albums Column**: Albums from the selected artist
+3. **Tracks Column**: Tracks from the selected album with favorites functionality
 
-## 📋 Prerequisiti
+Additional features:
+- **Theme Selector**: Fixed top-left position for easy theme switching
+- **Favorites Button**: Floating button showing favorite count with overlay management
+- **Real-time Search**: Live suggestions as you type artist names
 
-- Un browser web moderno con supporto JavaScript ES6+
-- Connessione internet per accedere alle API esterne
+## 📋 Prerequisites
 
-## 🛠️ Installazione
+- Modern web browser with ES6+ JavaScript support
+- Internet connection for external API access
+- No additional installations required
 
-1. **Clona il repository**:
+## 🛠️ Installation
+
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/tuousername/musicbrainz-songsterr-player.git
+   git clone https://github.com/yourusername/musicbrainz-songsterr-player.git
    cd musicbrainz-songsterr-player
    ```
 
-2. **Apri l'applicazione**:
-   Apri il file `music.html` nel tuo browser preferito o servilo tramite un server web locale.
+2. **Open the application**:
+   Open `music.html` in your preferred browser or serve it through a local web server.
 
-### Servire con un server locale (opzionale)
+### Serve with a local server (optional)
 
 ```bash
-# Con Python 3
+# With Python 3
 python -m http.server 8000
 
-# Con Node.js (se hai http-server installato)
+# With Node.js (if you have http-server installed)
 npx http-server
 
-# Con PHP
+# With PHP
 php -S localhost:8000
 ```
 
-Poi visita `http://localhost:8000` nel tuo browser.
+Then visit `http://localhost:8000` in your browser.
 
-## 🎵 Come utilizzare
+## 🎵 How to Use
 
-1. **Cerca un artista**: Inserisci il nome di un artista nella barra di ricerca (es. "Black Sabbath")
-2. **Seleziona un artista**: Clicca su un artista dalla lista dei risultati
-3. **Esplora gli album**: Scegli un album dalla lista che appare
-4. **Ascolta i brani**: Clicca su un brano per aprire la ricerca su Songsterr
+### Basic Search
+1. **Search for an artist**: Enter an artist name in the search bar (e.g., "Black Sabbath")
+2. **Use suggestions**: Click on real-time suggestions or use arrow keys to navigate
+3. **Select an artist**: Click on an artist from the results list
+4. **Explore albums**: Choose an album from the displayed list
+5. **Browse tracks**: Click on any track to search for tabs on Songsterr
 
-## 🏗️ Struttura del progetto
+### Genre Search
+1. **Switch to genre mode**: Select the "Genre" radio button
+2. **Choose a genre**: Pick from the dropdown of popular music genres
+3. **Discover artists**: Browse artists associated with that genre
+
+### Managing Favorites
+1. **Add favorites**: Click the heart icon next to any track
+2. **View favorites**: Click the floating favorites button (top-right)
+3. **Organize by artist/album**: Favorites are automatically grouped
+4. **Remove favorites**: Use the trash icon in the favorites overlay
+
+### Theme Switching
+1. **Light theme**: Click the sun icon (default)
+2. **Dark theme**: Click the moon icon
+3. **Persistence**: Your theme choice is automatically saved
+
+## 🏗️ Project Structure
 
 ```
 .
-├── music.html          # File principale dell'applicazione
-└── README.md          # Documentazione del progetto
+├── music.html          # Main application file (single-page app)
+└── README.md          # Project documentation
 ```
 
-## 🔧 Tecnologie utilizzate
+## 🔧 Technologies Used
 
-- **HTML5**: Struttura dell'applicazione
-- **CSS3**: Styling personalizzato
-- **JavaScript (ES6+)**: Logica dell'applicazione e chiamate API
-- **Tailwind CSS**: Framework CSS per il design
-- **Font Awesome**: Icone
-- **Google Fonts**: Font Inter per la tipografia
+- **HTML5**: Application structure and semantic markup
+- **CSS3**: Custom styling with advanced features (backdrop-filter, transitions)
+- **JavaScript (ES6+)**: Application logic, API calls, and DOM manipulation
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development
+- **Font Awesome**: Professional icon library
+- **Google Fonts**: Inter font family for modern typography
+- **LocalStorage API**: Client-side data persistence for themes and favorites
 
-## 🌐 API utilizzate
+## 🌐 APIs Used
 
 ### MusicBrainz API
 - **Endpoint**: `https://musicbrainz.org/ws/2/`
-- **Utilizzo**: Ricerca artisti, album e brani
-- **Rate limiting**: Rispetta i limiti di richiesta dell'API
-- **User-Agent**: Configurato come richiesto dalla documentazione MusicBrainz
+- **Purpose**: Artist search, album listings, and track information
+- **Rate Limiting**: Respectful API usage with proper delays
+- **User-Agent**: Configured as required by MusicBrainz documentation
+- **Data Types**: Artists, release-groups (albums), releases, and recordings
 
-### Songsterr
-- **Utilizzo**: Integrazione per la visualizzazione delle tablature
-- **URL**: `https://www.songsterr.com/a/wa/search`
+### Songsterr Integration
+- **Purpose**: Guitar tab and sheet music access
+- **URL Pattern**: `https://www.songsterr.com/a/wa/search?pattern={track}`
+- **Behavior**: Opens in new tab for seamless experience
 
-## 📱 Design responsivo
+## 📱 Responsive Design
 
-L'applicazione è completamente responsiva e si adatta a:
-- **Desktop**: Layout a tre colonne completo
-- **Tablet**: Layout adattato con colonne ridimensionate
-- **Mobile**: Layout a colonna singola con navigazione ottimizzata
+The application adapts to different screen sizes:
+- **Desktop (1024px+)**: Full three-column layout with all features visible
+- **Tablet (768px-1023px)**: Adapted layout with optimized column sizing
+- **Mobile (<768px)**: Single-column layout with collapsible navigation
 
-## 🎨 Personalizzazione
+### Mobile Optimizations
+- Touch-friendly button sizing
+- Optimized spacing for finger navigation
+- Responsive typography scaling
+- Adaptive modal sizing
 
-### Modifica i colori
-I colori principali possono essere modificati nelle classi Tailwind CSS:
+## 🎨 Customization
+
+### Theme System
+The application includes a comprehensive dark/light theme system:
+
 ```css
-/* Colore primario (blu) */
-bg-blue-500 hover:bg-blue-600
+/* Light theme (default) */
+body { background-color: #f3f4f6; }
 
-/* Colori di sfondo */
-bg-gray-100 bg-gray-50 bg-white
+/* Dark theme */
+body.dark-theme { background-color: #1f2937; }
 ```
 
-### Aggiungere nuove funzionalità
-Il codice è modulare e può essere facilmente esteso per aggiungere:
-- Playlist personalizzate
-- Integrazione con altri servizi musicali
-- Sistema di preferiti
-- Cache locale dei risultati
+### Color Scheme Customization
+Primary colors can be modified in Tailwind classes:
+```css
+/* Primary blue */
+bg-blue-500 hover:bg-blue-600
 
-## 🤝 Contribuire
+/* Background variations */
+bg-gray-100 bg-gray-50 bg-white
 
-1. Fork del progetto
-2. Crea un branch per la tua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit delle modifiche (`git commit -m 'Add some AmazingFeature'`)
-4. Push al branch (`git push origin feature/AmazingFeature`)
-5. Apri una Pull Request
+/* Dark theme overrides */
+body.dark-theme .bg-white { background-color: #374151 !important; }
+```
 
-## 📄 Licenza
+### Adding New Features
+The modular code structure allows easy extension:
+- **New search types**: Extend the search type radio system
+- **Additional APIs**: Add new music service integrations
+- **Enhanced favorites**: Implement playlist functionality
+- **Social features**: Add sharing and user accounts
 
-Questo progetto è rilasciato sotto la licenza MIT. Vedi il file `LICENSE` per i dettagli.
+## 🚀 Performance Features
 
-## 🙏 Riconoscimenti
+- **Debounced Search**: 300ms delay prevents excessive API calls
+- **Efficient DOM Updates**: Minimal reflows and repaints
+- **Local Storage**: Client-side caching for user preferences
+- **Lazy Loading**: On-demand data fetching
+- **Error Handling**: Graceful degradation with user feedback
 
-- [MusicBrainz](https://musicbrainz.org/) per le API musicali
-- [Songsterr](https://songsterr.com/) per le tablature
-- [Tailwind CSS](https://tailwindcss.com/) per il framework CSS
-- [Font Awesome](https://fontawesome.com/) per le icone
+## 🔒 Privacy & Data
 
-## 📞 Supporto
+- **No Server Required**: Runs entirely in the browser
+- **Local Storage Only**: User data stays on their device
+- **No Tracking**: No analytics or user behavior tracking
+- **CORS Compliant**: Proper cross-origin request handling
 
-Se hai domande o problemi:
-- Apri una issue su GitHub
-- Controlla la documentazione delle API di MusicBrainz
-- Verifica che il browser supporti le funzionalità moderne di JavaScript
+## 🤝 Contributing
 
-## 🔄 Aggiornamenti futuri
+1. **Fork the project** on GitHub
+2. **Create a feature branch**: `git checkout -b feature/AmazingFeature`
+3. **Commit your changes**: `git commit -m 'Add some AmazingFeature'`
+4. **Push to the branch**: `git push origin feature/AmazingFeature`
+5. **Open a Pull Request** with a detailed description
 
-- [ ] Sistema di cache per migliorare le performance
-- [ ] Supporto per multiple lingue
-- [ ] Integrazione con Spotify/Apple Music
-- [ ] Modalità offline
-- [ ] Sistema di raccomandazioni
+### Development Guidelines
+- Follow existing code style and patterns
+- Add comments for complex functionality
+- Test on multiple browsers and devices
+- Update documentation for new features
+
+## 📄 License
+
+This project is released under the MIT License. See the `LICENSE` file for details.
+
+## 🙏 Acknowledgments
+
+- [MusicBrainz](https://musicbrainz.org/) for comprehensive music database APIs
+- [Songsterr](https://songsterr.com/) for guitar tabs and sheet music
+- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
+- [Font Awesome](https://fontawesome.com/) for the professional icon library
+- [Google Fonts](https://fonts.google.com/) for the Inter font family
+
+## 📞 Support
+
+If you have questions or issues:
+- **GitHub Issues**: Open an issue for bugs or feature requests
+- **API Documentation**: Check MusicBrainz API documentation for data-related issues
+- **Browser Compatibility**: Ensure your browser supports modern JavaScript features
+- **Network Issues**: Verify internet connection for API access
+
+## 🔄 Roadmap
+
+### Upcoming Features
+- [ ] **Advanced Search**: Filters for year, country, and record label
+- [ ] **Playlist System**: Create and manage custom playlists
+- [ ] **Export/Import**: Backup and restore favorites and playlists
+- [ ] **Keyboard Shortcuts**: Power user navigation features
+- [ ] **Enhanced Mobile**: Progressive Web App (PWA) support
+- [ ] **Social Integration**: Share discoveries with friends
+- [ ] **Performance**: Implement service worker for offline functionality
+- [ ] **Accessibility**: Enhanced screen reader and keyboard navigation support
+
+### Technical Improvements
+- [ ] **Caching Strategy**: Implement smart caching for better performance
+- [ ] **API Optimization**: Batch requests and intelligent prefetching
+- [ ] **Error Recovery**: Automatic retry mechanisms for failed requests
+- [ ] **Testing**: Comprehensive unit and integration test suite
 
 ---
 
-*Sviluppato con ❤️ per gli amanti della musica*
+*Built with ❤️ for music lovers and developers*
