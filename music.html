@@ -179,6 +179,23 @@
             color: #fca5a5 !important;
         }
         
+        /* YouTube button styles */
+        .youtube-btn:hover {
+            background-color: #fef2f2 !important;
+        }
+        
+        body.dark-theme .youtube-btn:hover {
+            background-color: #7f1d1d !important;
+        }
+        
+        body.dark-theme .text-red-600 {
+            color: #f87171 !important;
+        }
+        
+        body.dark-theme .text-red-800 {
+            color: #fca5a5 !important;
+        }
+        
         /* Theme selector */
         .theme-selector {
             position: fixed;
@@ -702,11 +719,18 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="favorite-btn p-2 rounded-full hover:bg-gray-200 transition-colors duration-200" 
-                                onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${artist.name.replace(/'/g, "\\'")}', '${album.title.replace(/'/g, "\\'")}', this)" 
-                                title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
-                            <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'}"></i>
-                        </button>
+                        <div class="flex items-center space-x-2">
+                            <button class="youtube-btn p-2 rounded-full hover:bg-red-100 transition-colors duration-200" 
+                                    onclick="openYoutubeTutorial('${artist.name.replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="YouTube Tutorial">
+                                <i class="fab fa-youtube text-red-600"></i>
+                            </button>
+                            <button class="favorite-btn p-2 rounded-full hover:bg-gray-200 transition-colors duration-200" 
+                                    onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${artist.name.replace(/'/g, "\\'")}', '${album.title.replace(/'/g, "\\'")}', this)" 
+                                    title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                                <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'}"></i>
+                            </button>
+                        </div>
                     `;
                     trackListEl.appendChild(trackItem);
                 }, 500);
@@ -914,11 +938,18 @@
                                 <i class="fas fa-play text-blue-500 text-xs flex-shrink-0"></i>
                                 <span class="text-gray-800 text-sm truncate" title="${favorite.title}">${favorite.title}</span>
                             </div>
-                            <button class="text-red-500 hover:text-red-700 p-1 flex-shrink-0" 
-                                    onclick="removeFavoriteFromList('${favorite.title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}', '${album.replace(/'/g, "\\'")}')"
-                                    title="Remove from favorites">
-                                <i class="fas fa-trash-alt text-xs"></i>
-                            </button>
+                            <div class="flex items-center space-x-1 flex-shrink-0">
+                                <button class="text-red-600 hover:text-red-800 p-1" 
+                                        onclick="openYoutubeTutorial('${artist.replace(/'/g, "\\'")}', '${favorite.title.replace(/'/g, "\\'")}'); event.stopPropagation();"
+                                        title="YouTube Tutorial">
+                                    <i class="fab fa-youtube text-xs"></i>
+                                </button>
+                                <button class="text-red-500 hover:text-red-700 p-1" 
+                                        onclick="removeFavoriteFromList('${favorite.title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}', '${album.replace(/'/g, "\\'")}')"
+                                        title="Remove from favorites">
+                                    <i class="fas fa-trash-alt text-xs"></i>
+                                </button>
+                            </div>
                         </div>`;
                     });
                     
@@ -1336,11 +1367,18 @@
                         <i class="fas fa-play text-blue-500"></i>
                         <span class="text-gray-800">${track.title}</span>
                     </div>
-                    <button class="favorite-btn p-2 rounded-full hover:bg-gray-200 transition-colors duration-200" 
-                            onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}', '${getCurrentAlbumName().replace(/'/g, "\\'")}', this)" 
-                            title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
-                        <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'}"></i>
-                    </button>
+                    <div class="flex items-center space-x-2">
+                        <button class="youtube-btn p-2 rounded-full hover:bg-red-100 transition-colors duration-200" 
+                                onclick="openYoutubeTutorial('${getCurrentArtistName().replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                title="YouTube Tutorial">
+                            <i class="fab fa-youtube text-red-600"></i>
+                        </button>
+                        <button class="favorite-btn p-2 rounded-full hover:bg-gray-200 transition-colors duration-200" 
+                                onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}', '${getCurrentAlbumName().replace(/'/g, "\\'")}', this)" 
+                                title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                            <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'}"></i>
+                        </button>
+                    </div>
                 `;
                 trackListEl.appendChild(li);
             });
@@ -1352,6 +1390,15 @@
             const url = `https://www.songsterr.com/a/wa/search?pattern=${encodedTitle}`;
             window.open(url, '_blank');
             showMessage(`Searching for "${title}" on Songsterr...`);
+        }
+
+        // Open YouTube Tutorial
+        function openYoutubeTutorial(artist, track) {
+            const searchQuery = `${artist} ${track} tutorial`;
+            const encodedQuery = encodeURIComponent(searchQuery);
+            const youtubeUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
+            window.open(youtubeUrl, '_blank');
+            showMessage(`Searching for "${track}" tutorial on YouTube...`);
         }
 
         // Add event listeners
