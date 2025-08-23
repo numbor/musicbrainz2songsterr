@@ -734,7 +734,7 @@
                     const trackItem = document.createElement('li');
                     trackItem.className = 'list-item flex items-center justify-between p-3 bg-yellow-50 rounded-lg shadow-sm border-l-4 border-yellow-500';
                     trackItem.innerHTML = `
-                        <div class="flex items-center space-x-3 flex-1" onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}')">
+                        <div class="flex items-center space-x-3 flex-1" onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${artist.name.replace(/'/g, "\\'")}')">
                             <i class="fas fa-play text-blue-500"></i>
                             <div>
                                 <span class="text-gray-800 font-medium">${track.title}</span>
@@ -958,7 +958,7 @@
                     
                     groupedFavorites[artist][album].forEach(favorite => {
                         html += `<div class="flex items-center justify-between p-2 bg-gray-50 rounded hover:bg-gray-100 transition-colors">
-                            <div class="flex items-center space-x-2 flex-1 cursor-pointer min-w-0" onclick="openSongsterr('${favorite.title.replace(/'/g, "\\'")}')">
+                            <div class="flex items-center space-x-2 flex-1 cursor-pointer min-w-0" onclick="openSongsterr('${favorite.title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}')">
                                 <i class="fas fa-play text-blue-500 text-xs flex-shrink-0"></i>
                                 <span class="text-gray-800 text-sm truncate" title="${favorite.title}">${favorite.title}</span>
                             </div>
@@ -1387,7 +1387,7 @@
                 const isFavorite = isTrackFavorite(track.title, getCurrentArtistName(), getCurrentAlbumName());
                 
                 li.innerHTML = `
-                    <div class="flex items-center space-x-3 flex-1" onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}')">
+                    <div class="flex items-center space-x-3 flex-1" onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}')">
                         <i class="fas fa-play text-blue-500"></i>
                         <span class="text-gray-800">${track.title}</span>
                     </div>
@@ -1409,11 +1409,12 @@
         }
 
         // Open Songsterr URL
-        function openSongsterr(title) {
-            const encodedTitle = encodeURIComponent(title);
-            const url = `https://www.songsterr.com/a/wa/search?pattern=${encodedTitle}`;
+        function openSongsterr(title, artist) {
+            const searchQuery = artist ? `${artist} ${title}` : title;
+            const encodedQuery = encodeURIComponent(searchQuery);
+            const url = `https://www.songsterr.com/a/wa/search?pattern=${encodedQuery}`;
             window.open(url, '_blank');
-            showMessage(`Searching for "${title}" on Songsterr...`);
+            showMessage(`Searching for "${title}" by ${artist || 'Unknown Artist'} on Songsterr...`);
         }
 
         // Open YouTube Tutorial
