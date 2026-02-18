@@ -115,6 +115,28 @@
             margin: 0;
         }
         
+        /* Logo Styles */
+        .logo-container {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+        
+        header h2 {
+            font-size: 1.5rem;
+            line-height: 1.2;
+            font-weight: 600;
+        }
+        
         /* Dark theme - Professional */
         body.dark-theme {
             background-color: var(--gray-900);
@@ -156,6 +178,15 @@
         body.dark-theme h2, 
         body.dark-theme h3 {
             color: var(--gray-100);
+        }
+        
+        /* Dark theme logo styles */
+        body.dark-theme header h2 {
+            color: var(--gray-300);
+        }
+        
+        body.dark-theme header p {
+            color: var(--gray-400);
         }
         
         body.dark-theme .bg-white {
@@ -808,6 +839,28 @@
     </style>
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Logo Header -->
+    <header class="w-full max-w-7xl mb-8">
+        <div class="text-center">
+            <div class="flex items-center justify-center mb-3">
+                <div class="logo-container bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-2xl shadow-lg mr-4">
+                    <i class="fas fa-guitar text-white text-3xl"></i>
+                </div>
+                <div class="text-left">
+                    <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        MusicBrainz
+                    </h1>
+                    <h2 class="text-2xl font-semibold text-gray-700">
+                        Songsterr Player
+                    </h2>
+                </div>
+            </div>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                Discover music through MusicBrainz and find guitar tabs on Songsterr
+            </p>
+        </div>
+    </header>
 
     <!-- Theme Selector -->
     <div class="theme-selector">
