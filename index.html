@@ -888,7 +888,7 @@
                 </div>
             </div>
             <p class="text-gray-600 text-lg mx-auto whitespace-nowrap">
-                Discover music by artist, track, genre, or mood through MusicBrainz and find guitar tabs on Songsterr, Youtube and UG
+                Discover music by artist, track, genre, mood, or find the best songs through MusicBrainz and find guitar tabs on Songsterr, Youtube and UG
             </p>
         </div>
     </header>
@@ -955,6 +955,12 @@
                         <i class="fas fa-heart mr-1 text-pink-500"></i>Mood
                     </span>
                 </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="search-type" value="best-of" class="form-radio text-blue-500">
+                    <span class="ml-2 text-gray-700 font-medium text-sm">
+                        <i class="fas fa-star mr-1 text-yellow-500"></i>Best of
+                    </span>
+                </label>
             </div>
             
             <!-- Search fields container -->
@@ -999,6 +1005,20 @@
                     <select id="mood-select" class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none">
                         <option value="">Select a mood...</option>
                     </select>
+                </div>
+
+                <!-- Best of search field -->
+                <div id="best-of-search-container" class="relative w-full sm:w-2/3 hidden">
+                    <input type="text" id="best-of-search" placeholder="Search artist for best songs (e.g. Queen)" class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none" autocomplete="off">
+                    <!-- Best of suggestions dropdown -->
+                    <div id="best-of-suggestions" class="absolute top-full left-0 right-0 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
+                        <div id="best-of-suggestions-loading" class="hidden p-3 text-center text-gray-500 text-sm">
+                            <i class="fas fa-spinner fa-spin mr-2"></i>Loading...
+                        </div>
+                        <ul id="best-of-suggestions-list" class="">
+                            <!-- Best of suggestions populated by JS -->
+                        </ul>
+                    </div>
                 </div>
                 
                 <button id="search-button" class="pro-button w-full sm:w-1/4 py-2 px-4 text-sm rounded-lg">
@@ -1153,11 +1173,13 @@
         const trackSearchEl = document.getElementById('track-search');
         const genreSelectEl = document.getElementById('genre-select');
         const moodSelectEl = document.getElementById('mood-select');
+        const bestOfSearchEl = document.getElementById('best-of-search');
         const searchButtonEl = document.getElementById('search-button');
         const artistSearchContainerEl = document.getElementById('artist-search-container');
         const trackSearchContainerEl = document.getElementById('track-search-container');
         const genreSearchContainerEl = document.getElementById('genre-search-container');
         const moodSearchContainerEl = document.getElementById('mood-search-container');
+        const bestOfSearchContainerEl = document.getElementById('best-of-search-container');
         const artistListEl = document.getElementById('artist-list');
         const albumListEl = document.getElementById('album-list');
         const trackListEl = document.getElementById('track-list');
@@ -1178,13 +1200,21 @@
         const trackSuggestionsListEl = document.getElementById('track-suggestions-list');
         const trackSuggestionsLoadingEl = document.getElementById('track-suggestions-loading');
         
+        // Elements for best of suggestions
+        const bestOfSuggestionsEl = document.getElementById('best-of-suggestions');
+        const bestOfSuggestionsListEl = document.getElementById('best-of-suggestions-list');
+        const bestOfSuggestionsLoadingEl = document.getElementById('best-of-suggestions-loading');
+        
         // Variables for suggestion control
         let suggestionTimeout;
         let trackSuggestionTimeout;
+        let bestOfSuggestionTimeout;
         let currentSuggestionIndex = -1;
         let currentTrackSuggestionIndex = -1;
+        let currentBestOfSuggestionIndex = -1;
         let currentSuggestions = [];
         let currentTrackSuggestions = [];
+        let currentBestOfSuggestions = [];
         
         // Variables for favorites
         let favorites = [];
@@ -1487,6 +1517,8 @@
                     return `Genre: ${query}`;
                 case 'mood':
                     return `Mood: ${query}`;
+                case 'best-of':
+                    return `Best of: ${query}`;
                 default:
                     return query;
             }
@@ -1573,6 +1605,8 @@
                     return 'fas fa-music text-purple-500';
                 case 'mood':
                     return 'fas fa-heart text-pink-500';
+                case 'best-of':
+                    return 'fas fa-star text-yellow-500';
                 default:
                     return 'fas fa-search text-gray-500';
             }
@@ -1614,6 +1648,10 @@
             } else if (type === 'mood') {
                 moodSelectEl.value = query;
                 searchArtistsByMood(query);
+            } else if (type === 'best-of') {
+                bestOfSearchEl.value = query;
+                hideBestOfSuggestions();
+                searchArtistBestOf(query);
             }
             
             hideSearchHistory();
@@ -2076,8 +2114,10 @@
             trackSearchContainerEl.classList.add('hidden');
             genreSearchContainerEl.classList.add('hidden');
             moodSearchContainerEl.classList.add('hidden');
+            bestOfSearchContainerEl.classList.add('hidden');
             hideSuggestions();
             hideTrackSuggestions();
+            hideBestOfSuggestions();
             
             // Show the selected container
             if (searchType === 'artist') {
@@ -2088,6 +2128,8 @@
                 genreSearchContainerEl.classList.remove('hidden');
             } else if (searchType === 'mood') {
                 moodSearchContainerEl.classList.remove('hidden');
+            } else if (searchType === 'best-of') {
+                bestOfSearchContainerEl.classList.remove('hidden');
             }
         }
 
@@ -2191,7 +2233,98 @@
             currentTrackSuggestions = [];
         }
 
-        // Function to get real-time track suggestions
+        // Function to show/hide best of suggestions
+        function showBestOfSuggestions() {
+            bestOfSuggestionsEl.classList.remove('hidden');
+        }
+
+        function hideBestOfSuggestions() {
+            bestOfSuggestionsEl.classList.add('hidden');
+            currentBestOfSuggestionIndex = -1;
+            currentBestOfSuggestions = [];
+        }
+
+        // Function to get real-time best of suggestions
+        async function fetchBestOfSuggestions(query) {
+            if (query.length < 2) {
+                hideBestOfSuggestions();
+                return;
+            }
+
+            bestOfSuggestionsLoadingEl.classList.remove('hidden');
+            bestOfSuggestionsListEl.innerHTML = '';
+            showBestOfSuggestions();
+
+            try {
+                const url = `${musicBrainzApiUrl}artist?query=${encodeURIComponent(query)}&fmt=json&limit=8`;
+                const response = await fetch(url, {
+                    headers: { 'User-Agent': userAgent }
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                const artists = data.artists || [];
+                
+                bestOfSuggestionsLoadingEl.classList.add('hidden');
+                
+                if (artists.length > 0) {
+                    renderBestOfSuggestions(artists);
+                } else {
+                    bestOfSuggestionsListEl.innerHTML = '<li class="p-4 text-gray-500 text-center">No artists found</li>';
+                }
+                
+            } catch (error) {
+                console.error('Best of suggestion API call failed:', error);
+                bestOfSuggestionsLoadingEl.classList.add('hidden');
+                bestOfSuggestionsListEl.innerHTML = '<li class="p-4 text-red-500 text-center">Loading error</li>';
+            }
+        }
+
+        // Function to render best of suggestions
+        function renderBestOfSuggestions(artists) {
+            currentBestOfSuggestions = artists;
+            bestOfSuggestionsListEl.innerHTML = '';
+            
+            artists.forEach((artist, index) => {
+                const li = document.createElement('li');
+                li.className = 'suggestion-item flex items-center justify-between';
+                
+                // Get artist area/country info
+                let areaInfo = '';
+                if (artist.area && artist.area.name) {
+                    areaInfo = ` • ${artist.area.name}`;
+                } else if (artist['begin-area'] && artist['begin-area'].name) {
+                    areaInfo = ` • ${artist['begin-area'].name}`;
+                }
+                
+                li.innerHTML = `
+                    <div class="flex-1 p-3 cursor-pointer hover:bg-gray-50 transition-colors" 
+                         onclick="selectBestOfSuggestion('${artist.name.replace(/'/g, "\\'")}', '${artist.id}')">
+                        <div class="font-medium text-gray-900 text-sm">${artist.name}</div>
+                        <div class="text-xs text-gray-500">
+                            <span class="capitalize">${artist.type || 'Artist'}</span>${areaInfo}
+                        </div>
+                    </div>
+                `;
+                
+                bestOfSuggestionsListEl.appendChild(li);
+            });
+        }
+
+        // Function to select a best of suggestion
+        function selectBestOfSuggestion(artistName, artistId) {
+            bestOfSearchEl.value = artistName;
+            hideBestOfSuggestions();
+            searchArtistBestOf(artistName, artistId);
+        }
+
+        // Function to highlight a best of suggestion
+        function highlightBestOfSuggestion(index) {
+            document.querySelectorAll('#best-of-suggestions .suggestion-item').forEach((item, i) => {
+                item.classList.toggle('highlighted', i === index);
+            });
+            currentBestOfSuggestionIndex = index;
+        }
         async function fetchTrackSuggestions(query) {
             if (query.length < 2) {
                 hideTrackSuggestions();
@@ -2280,7 +2413,281 @@
             currentTrackSuggestionIndex = index;
         }
 
-        // Function to search tracks via MusicBrainz
+        // Function to search artist's best/most popular songs
+        async function searchArtistBestOf(artistName, artistId = null) {
+            loadingArtistsEl.classList.remove('hidden');
+            noArtistsFoundEl.classList.add('hidden');
+            artistListEl.innerHTML = '';
+            albumListEl.innerHTML = '';
+            trackListEl.innerHTML = '';
+            albumsTitleEl.textContent = 'Albums';
+            tracksTitleEl.textContent = `Best of ${artistName}`;
+            noArtistSelectedEl.style.display = 'none';
+            noAlbumSelectedEl.style.display = 'none';
+
+            try {
+                let searchArtistId = artistId;
+                
+                // If no artistId provided, search for the artist first
+                if (!searchArtistId) {
+                    const artistResponse = await fetch(
+                        `${musicBrainzApiUrl}artist?query=${encodeURIComponent(artistName)}&fmt=json&limit=1`,
+                        { headers: { 'User-Agent': userAgent } }
+                    );
+                    if (!artistResponse.ok) throw new Error('Failed to find artist');
+                    
+                    const artistData = await artistResponse.json();
+                    if (!artistData.artists || artistData.artists.length === 0) {
+                        throw new Error('Artist not found');
+                    }
+                    searchArtistId = artistData.artists[0].id;
+                }
+                
+                // Step 1: Get the most important/popular releases (albums, compilations, greatest hits)
+                showMessage(`Searching for ${artistName}'s most popular releases...`);
+                const releasesResponse = await fetch(
+                    `${musicBrainzApiUrl}release-group?artist=${searchArtistId}&fmt=json&type=album|compilation&limit=50`,
+                    { headers: { 'User-Agent': userAgent } }
+                );
+                if (!releasesResponse.ok) throw new Error('Failed to fetch releases');
+                
+                const releasesData = await releasesResponse.json();
+                let releaseGroups = releasesData['release-groups'] || [];
+                
+                // Prioritize greatest hits, best of, compilation albums
+                const bestOfKeywords = ['greatest hits', 'best of', 'essential', 'collection', 'gold', 'platinum', 'hits', 'anthology', 'complete'];
+                const priorityReleases = releaseGroups.filter(release => {
+                    const title = release.title.toLowerCase();
+                    return bestOfKeywords.some(keyword => title.includes(keyword));
+                });
+                
+                // If we have best-of albums, use those first, otherwise use regular albums
+                const targetReleases = priorityReleases.length > 0 ? priorityReleases.slice(0, 3) : releaseGroups.slice(0, 10);
+                
+                let allTracks = [];
+                let trackPopularityMap = new Map();
+                
+                // Step 2: Get tracks from the most important releases
+                for (const releaseGroup of targetReleases) {
+                    try {
+                        const tracksResponse = await fetch(
+                            `${musicBrainzApiUrl}release?release-group=${releaseGroup.id}&fmt=json&inc=recordings&status=official&limit=1`,
+                            { headers: { 'User-Agent': userAgent } }
+                        );
+                        
+                        if (tracksResponse.ok) {
+                            const tracksData = await tracksResponse.json();
+                            const releases = tracksData.releases || [];
+                            
+                            if (releases.length > 0 && releases[0].media && releases[0].media.length > 0) {
+                                const tracks = releases[0].media[0].tracks || [];
+                                
+                                tracks.forEach(track => {
+                                    if (track.title && track.title.length > 1) {
+                                        const normalizedTitle = track.title.toLowerCase().trim();
+                                        
+                                        // Count how many times this track appears (popularity indicator)
+                                        if (trackPopularityMap.has(normalizedTitle)) {
+                                            trackPopularityMap.set(normalizedTitle, trackPopularityMap.get(normalizedTitle) + 1);
+                                        } else {
+                                            trackPopularityMap.set(normalizedTitle, 1);
+                                            allTracks.push({
+                                                ...track,
+                                                sourceAlbum: releaseGroup.title,
+                                                isFromBestOf: bestOfKeywords.some(keyword => releaseGroup.title.toLowerCase().includes(keyword))
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    } catch (error) {
+                        console.log(`Error fetching tracks for ${releaseGroup.title}:`, error);
+                    }
+                }
+                
+                // Step 3: If we don't have enough tracks, supplement with direct recording search
+                if (allTracks.length < 10) {
+                    try {
+                        const recordingsResponse = await fetch(
+                            `${musicBrainzApiUrl}recording?artist=${searchArtistId}&fmt=json&limit=30`,
+                            { headers: { 'User-Agent': userAgent } }
+                        );
+                        
+                        if (recordingsResponse.ok) {
+                            const recordingsData = await recordingsResponse.json();
+                            const recordings = recordingsData.recordings || [];
+                            
+                            recordings.forEach(recording => {
+                                const normalizedTitle = recording.title.toLowerCase().trim();
+                                if (!trackPopularityMap.has(normalizedTitle)) {
+                                    trackPopularityMap.set(normalizedTitle, 1);
+                                    allTracks.push({
+                                        ...recording,
+                                        sourceAlbum: 'Singles & Other Recordings',
+                                        isFromBestOf: false
+                                    });
+                                }
+                            });
+                        }
+                    } catch (error) {
+                        console.log('Error fetching additional recordings:', error);
+                    }
+                }
+                
+                if (allTracks.length === 0) {
+                    trackListEl.innerHTML = `
+                        <div class="text-center text-gray-500 mt-20">
+                            <i class="fas fa-music text-4xl mb-4 text-gray-300"></i>
+                            <p>No popular songs found for ${artistName}</p>
+                            <p class="text-sm mt-2">Try searching by artist instead</p>
+                        </div>
+                    `;
+                    loadingArtistsEl.classList.add('hidden');
+                    return;
+                }
+                
+                // Step 4: Sort tracks by popularity indicators
+                allTracks = allTracks.sort((a, b) => {
+                    const aTitle = a.title.toLowerCase().trim();
+                    const bTitle = b.title.toLowerCase().trim();
+                    
+                    // Prioritize tracks from "best of" albums
+                    if (a.isFromBestOf !== b.isFromBestOf) {
+                        return b.isFromBestOf - a.isFromBestOf;
+                    }
+                    
+                    // Then by appearance count
+                    const aCount = trackPopularityMap.get(aTitle) || 1;
+                    const bCount = trackPopularityMap.get(bTitle) || 1;
+                    if (bCount !== aCount) return bCount - aCount;
+                    
+                    // Prefer tracks with more releases
+                    const aReleases = a['release-count'] || 0;
+                    const bReleases = b['release-count'] || 0;
+                    if (bReleases !== aReleases) return bReleases - aReleases;
+                    
+                    // Finally, prefer shorter titles (often more recognizable)
+                    return a.title.length - b.title.length;
+                });
+                
+                // Remove duplicates and take top 15-20
+                const uniqueTracks = [];
+                const seenTitles = new Set();
+                
+                for (const track of allTracks) {
+                    const normalizedTitle = track.title.toLowerCase().trim();
+                    if (!seenTitles.has(normalizedTitle)) {
+                        seenTitles.add(normalizedTitle);
+                        uniqueTracks.push(track);
+                        if (uniqueTracks.length >= 20) break;
+                    }
+                }
+                
+                // Render the best of results
+                renderBestOfResults(uniqueTracks, artistName, trackPopularityMap);
+                showMessage(`Found ${uniqueTracks.length} popular songs by ${artistName}`);
+                
+                // Add to search history
+                addToSearchHistory('best-of', artistName);
+                
+            } catch (error) {
+                console.error('API call failed:', error);
+                trackListEl.innerHTML = `
+                    <div class="text-center text-gray-500 mt-20">
+                        <i class="fas fa-exclamation-triangle text-4xl mb-4 text-red-300"></i>
+                        <p>Error loading best songs for ${artistName}</p>
+                        <p class="text-sm mt-2">Please try again</p>
+                    </div>
+                `;
+                showMessage('Error while searching for best songs.');
+            } finally {
+                loadingArtistsEl.classList.add('hidden');
+            }
+        }
+
+        // Render Best Of Results in Tracks Column
+        function renderBestOfResults(recordings, artistName, popularityMap = new Map()) {
+            trackListEl.innerHTML = '';
+            
+            recordings.forEach((recording, index) => {
+                const isFavorite = isTrackFavorite(recording.title, artistName, 'Best of');
+                
+                // Get popularity indicators
+                const normalizedTitle = recording.title.toLowerCase().trim();
+                const appearances = popularityMap.get(normalizedTitle) || 1;
+                const releaseCount = recording['release-count'] || 0;
+                
+                // Determine source info
+                let sourceInfo = recording.sourceAlbum || 'Popular Track';
+                let sourceClass = 'text-gray-500';
+                let sourceIcon = 'fas fa-star';
+                
+                if (recording.isFromBestOf) {
+                    sourceClass = 'text-yellow-600';
+                    sourceIcon = 'fas fa-trophy';
+                    sourceInfo = `From: ${recording.sourceAlbum}`;
+                } else if (appearances > 1) {
+                    sourceClass = 'text-green-600';
+                    sourceIcon = 'fas fa-fire';
+                    sourceInfo = `Appears in ${appearances} albums`;
+                } else if (releaseCount > 0) {
+                    sourceClass = 'text-blue-600';
+                    sourceIcon = 'fas fa-compact-disc';
+                    sourceInfo = `${releaseCount} releases`;
+                }
+                
+                const trackItem = document.createElement('li');
+                trackItem.className = 'track-item list-item flex items-center justify-between py-3 px-4 hover:bg-gray-50 transition-colors border-l-4 border-yellow-400 mb-2 rounded-r-lg';
+                trackItem.innerHTML = `
+                    <div class="flex items-center space-x-3 flex-1 min-w-0">
+                        <div class="min-w-0 flex-1">
+                            <span class="text-gray-900 font-semibold text-sm block truncate" title="${recording.title}">
+                                <span class="text-yellow-600 font-bold mr-2 w-6 inline-block text-right">#${index + 1}</span>${recording.title}
+                            </span>
+                            <div class="text-xs ${sourceClass} flex items-center mt-1">
+                                <i class="${sourceIcon} mr-1"></i>${sourceInfo}
+                                ${recording.isFromBestOf ? ' • Greatest Hits' : ''}
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openSongsterr('${recording.title.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', '${artistName.replace(/'/g, "\\'").replace(/"/g, '&quot;')}'); event.stopPropagation();" 
+                                    title="Songsterr Tabs">
+                                <i class="fas fa-guitar text-blue-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openYoutubeTutorial('${artistName.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', '${recording.title.replace(/'/g, "\\'").replace(/"/g, '&quot;')}'); event.stopPropagation();" 
+                                    title="YouTube Tutorial">
+                                <i class="fab fa-youtube text-red-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openUltimateGuitar('${recording.title.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', '${artistName.replace(/'/g, "\\'").replace(/"/g, '&quot;')}'); event.stopPropagation();" 
+                                    title="Ultimate Guitar Tabs">
+                                <i class="fas fa-music text-orange-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0 favorite-btn" 
+                                    onclick="toggleFavorite('${recording.title.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', '${artistName.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', 'Best of', this)" 
+                                    title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                                <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'} text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                trackListEl.appendChild(trackItem);
+            });
+            
+            // Add a small note at the bottom
+            if (recordings.length > 0) {
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'text-center text-xs text-gray-400 mt-4 p-3 bg-gray-50 rounded';
+                noteDiv.innerHTML = `
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Songs ranked by appearances in compilations, greatest hits albums, and release frequency
+                `;
+                trackListEl.appendChild(noteDiv);
+            }
+        }
         async function searchTracks(query) {
             loadingArtistsEl.classList.remove('hidden');
             noArtistsFoundEl.classList.add('hidden');
@@ -2606,6 +3013,46 @@
             }
         }
 
+        // Handle keyboard navigation for best-of
+        function handleBestOfKeyNavigation(e) {
+            const suggestions = document.querySelectorAll('#best-of-suggestions .suggestion-item');
+            
+            if (suggestions.length === 0) return;
+
+            switch (e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    currentBestOfSuggestionIndex = Math.min(currentBestOfSuggestionIndex + 1, suggestions.length - 1);
+                    highlightBestOfSuggestion(currentBestOfSuggestionIndex);
+                    break;
+                    
+                case 'ArrowUp':
+                    e.preventDefault();
+                    currentBestOfSuggestionIndex = Math.max(currentBestOfSuggestionIndex - 1, -1);
+                    if (currentBestOfSuggestionIndex >= 0) {
+                        highlightBestOfSuggestion(currentBestOfSuggestionIndex);
+                    } else {
+                        document.querySelectorAll('#best-of-suggestions .suggestion-item').forEach(item => {
+                            item.classList.remove('highlighted');
+                        });
+                    }
+                    break;
+                    
+                case 'Enter':
+                    e.preventDefault();
+                    if (currentBestOfSuggestionIndex >= 0 && currentBestOfSuggestions[currentBestOfSuggestionIndex]) {
+                        selectBestOfSuggestion(currentBestOfSuggestions[currentBestOfSuggestionIndex].name, currentBestOfSuggestions[currentBestOfSuggestionIndex].id);
+                    } else {
+                        searchButtonEl.click();
+                    }
+                    break;
+                    
+                case 'Escape':
+                    hideBestOfSuggestions();
+                    break;
+            }
+        }
+
         // Function to search artists via MusicBrainz
         async function searchArtists(query) {
             loadingArtistsEl.classList.remove('hidden');
@@ -2680,6 +3127,15 @@
                     searchArtistsByMood(selectedMood);
                 } else {
                     showMessage("Select a mood to search.");
+                }
+            } else if (searchType === 'best-of') {
+                const artistName = bestOfSearchEl.value.trim();
+                if (artistName) {
+                    hideBestOfSuggestions();
+                    addToSearchHistory('best-of', artistName);
+                    searchArtistBestOf(artistName);
+                } else {
+                    showMessage("Enter an artist name to search for best songs.");
                 }
             }
         }
@@ -2901,6 +3357,24 @@
             }
         });
         
+        // Event listener for real-time best-of search
+        bestOfSearchEl.addEventListener('input', (e) => {
+            const searchType = document.querySelector('input[name="search-type"]:checked').value;
+            if (searchType === 'best-of') {
+                const query = e.target.value.trim();
+                
+                // Cancel previous timeout
+                if (bestOfSuggestionTimeout) {
+                    clearTimeout(bestOfSuggestionTimeout);
+                }
+                
+                // Set new timeout to avoid too many requests
+                bestOfSuggestionTimeout = setTimeout(() => {
+                    fetchBestOfSuggestions(query);
+                }, 300); // Wait 300ms after last keystroke
+            }
+        });
+        
         // Handle keyboard navigation
         artistSearchEl.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -2921,6 +3395,16 @@
             }
         });
         
+        // Handle keyboard navigation for best-of search
+        bestOfSearchEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearch();
+            } else {
+                handleBestOfKeyNavigation(e);
+            }
+        });
+        
         // Handle Enter for genre
         genreSelectEl.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -2936,6 +3420,9 @@
             }
             if (!e.target.closest('#track-search') && !e.target.closest('#track-suggestions')) {
                 hideTrackSuggestions();
+            }
+            if (!e.target.closest('#best-of-search') && !e.target.closest('#best-of-suggestions')) {
+                hideBestOfSuggestions();
             }
             if (!e.target.closest('#history-button') && !e.target.closest('#search-history-dropdown')) {
                 hideSearchHistory();
@@ -2960,6 +3447,17 @@
                 const query = trackSearchEl.value.trim();
                 if (query.length >= 2 && currentTrackSuggestions.length > 0) {
                     showTrackSuggestions();
+                }
+            }
+        });
+
+        // Handle focus for best-of search
+        bestOfSearchEl.addEventListener('focus', () => {
+            const searchType = document.querySelector('input[name="search-type"]:checked').value;
+            if (searchType === 'best-of') {
+                const query = bestOfSearchEl.value.trim();
+                if (query.length >= 2 && currentBestOfSuggestions.length > 0) {
+                    showBestOfSuggestions();
                 }
             }
         });
