@@ -888,7 +888,7 @@
                 </div>
             </div>
             <p class="text-gray-600 text-lg mx-auto whitespace-nowrap">
-                Discover music through MusicBrainz and find guitar tabs on Songsterr, Youtube and UG
+                Discover music by artist, track, genre, or mood through MusicBrainz and find guitar tabs on Songsterr, Youtube and UG
             </p>
         </div>
     </header>
@@ -949,6 +949,12 @@
                         <i class="fas fa-music mr-1 text-purple-500"></i>Genre
                     </span>
                 </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="search-type" value="mood" class="form-radio text-blue-500">
+                    <span class="ml-2 text-gray-700 font-medium text-sm">
+                        <i class="fas fa-heart mr-1 text-pink-500"></i>Mood
+                    </span>
+                </label>
             </div>
             
             <!-- Search fields container -->
@@ -985,6 +991,13 @@
                 <div id="genre-search-container" class="relative w-full sm:w-2/3 hidden">
                     <select id="genre-select" class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none">
                         <option value="">Select a genre...</option>
+                    </select>
+                </div>
+
+                <!-- Mood search field -->
+                <div id="mood-search-container" class="relative w-full sm:w-2/3 hidden">
+                    <select id="mood-select" class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none">
+                        <option value="">Select a mood...</option>
                     </select>
                 </div>
                 
@@ -1139,10 +1152,12 @@
         const artistSearchEl = document.getElementById('artist-search');
         const trackSearchEl = document.getElementById('track-search');
         const genreSelectEl = document.getElementById('genre-select');
+        const moodSelectEl = document.getElementById('mood-select');
         const searchButtonEl = document.getElementById('search-button');
         const artistSearchContainerEl = document.getElementById('artist-search-container');
         const trackSearchContainerEl = document.getElementById('track-search-container');
         const genreSearchContainerEl = document.getElementById('genre-search-container');
+        const moodSearchContainerEl = document.getElementById('mood-search-container');
         const artistListEl = document.getElementById('artist-list');
         const albumListEl = document.getElementById('album-list');
         const trackListEl = document.getElementById('track-list');
@@ -1209,6 +1224,15 @@
             'alternative rock', 'indie', 'progressive rock', 'hard rock', 'grunge',
             'techno', 'house', 'ambient', 'experimental', 'post-rock', 'shoegaze',
             'garage rock', 'psychedelic', 'new wave', 'synthpop'
+        ];
+
+        // Popular music moods
+        const musicMoods = [
+            'happy', 'sad', 'energetic', 'calm', 'romantic', 'aggressive', 'melancholic',
+            'uplifting', 'dark', 'bright', 'mysterious', 'nostalgic', 'dreamy', 'intense',
+            'peaceful', 'anxious', 'confident', 'lonely', 'powerful', 'gentle', 'dramatic',
+            'playful', 'serious', 'hopeful', 'angry', 'relaxed', 'emotional', 'triumphant',
+            'ethereal', 'gritty'
         ];
 
         // === RANDOM SONG FUNCTIONALITY ===
@@ -1461,6 +1485,8 @@
                     return `Track: ${query}`;
                 case 'genre':
                     return `Genre: ${query}`;
+                case 'mood':
+                    return `Mood: ${query}`;
                 default:
                     return query;
             }
@@ -1545,6 +1571,8 @@
                     return 'fas fa-play-circle text-green-500';
                 case 'genre':
                     return 'fas fa-music text-purple-500';
+                case 'mood':
+                    return 'fas fa-heart text-pink-500';
                 default:
                     return 'fas fa-search text-gray-500';
             }
@@ -1583,6 +1611,9 @@
             } else if (type === 'genre') {
                 genreSelectEl.value = query;
                 searchArtistsByGenre(query);
+            } else if (type === 'mood') {
+                moodSelectEl.value = query;
+                searchArtistsByMood(query);
             }
             
             hideSearchHistory();
@@ -2026,6 +2057,16 @@
             });
         }
 
+        // Initialize music moods in the dropdown
+        function initializeMoods() {
+            musicMoods.forEach(mood => {
+                const option = document.createElement('option');
+                option.value = mood;
+                option.textContent = mood.charAt(0).toUpperCase() + mood.slice(1);
+                moodSelectEl.appendChild(option);
+            });
+        }
+
         // Handle search type change
         function handleSearchTypeChange() {
             const searchType = document.querySelector('input[name="search-type"]:checked').value;
@@ -2034,6 +2075,7 @@
             artistSearchContainerEl.classList.add('hidden');
             trackSearchContainerEl.classList.add('hidden');
             genreSearchContainerEl.classList.add('hidden');
+            moodSearchContainerEl.classList.add('hidden');
             hideSuggestions();
             hideTrackSuggestions();
             
@@ -2044,6 +2086,8 @@
                 trackSearchContainerEl.classList.remove('hidden');
             } else if (searchType === 'genre') {
                 genreSearchContainerEl.classList.remove('hidden');
+            } else if (searchType === 'mood') {
+                moodSearchContainerEl.classList.remove('hidden');
             }
         }
 
@@ -2081,6 +2125,45 @@
                 console.error('API call failed:', error);
                 noArtistsFoundEl.classList.remove('hidden');
                 showMessage('Error while searching by genre.');
+            } finally {
+                loadingArtistsEl.classList.add('hidden');
+            }
+        }
+
+        // Function to search artists by mood
+        async function searchArtistsByMood(mood) {
+            loadingArtistsEl.classList.remove('hidden');
+            noArtistsFoundEl.classList.add('hidden');
+            artistListEl.innerHTML = '';
+            albumListEl.innerHTML = '';
+            trackListEl.innerHTML = '';
+            albumsTitleEl.textContent = 'Albums';
+            tracksTitleEl.textContent = 'Tracks';
+            noArtistSelectedEl.style.display = 'block';
+            noAlbumSelectedEl.style.display = 'block';
+
+            try {
+                // Search for artists with the specified mood tag
+                const url = `${musicBrainzApiUrl}artist?query=tag:${encodeURIComponent(mood)}&fmt=json&limit=50`;
+                const response = await fetch(url, {
+                    headers: { 'User-Agent': userAgent }
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                const artists = data.artists || [];
+                
+                if (artists.length > 0) {
+                    renderArtists(artists);
+                    showMessage(`Found ${artists.length} artists for mood "${mood}"`);
+                } else {
+                    noArtistsFoundEl.classList.remove('hidden');
+                    showMessage(`No artists found for mood "${mood}"`);
+                }
+            } catch (error) {
+                console.error('API call failed:', error);
+                noArtistsFoundEl.classList.remove('hidden');
+                showMessage('Error while searching by mood.');
             } finally {
                 loadingArtistsEl.classList.add('hidden');
             }
@@ -2590,6 +2673,14 @@
                 } else {
                     showMessage("Select a genre to search.");
                 }
+            } else if (searchType === 'mood') {
+                const selectedMood = moodSelectEl.value;
+                if (selectedMood) {
+                    addToSearchHistory('mood', selectedMood);
+                    searchArtistsByMood(selectedMood);
+                } else {
+                    showMessage("Select a mood to search.");
+                }
             }
         }
 
@@ -2936,6 +3027,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadTheme(); // Load saved theme
             initializeGenres();
+            initializeMoods();
             handleSearchTypeChange(); // Set initial state
             loadFavorites(); // Load saved favorites
             loadSearchHistory(); // Load search history
