@@ -836,6 +836,37 @@
             border-bottom-color: var(--gray-700);
             color: var(--gray-200);
         }
+        
+        /* Search History Styles */
+        .history-item {
+            transition: all 0.15s ease;
+        }
+        
+        .history-item:hover {
+            transform: translateX(2px);
+        }
+        
+        .history-item:hover .remove-history-item {
+            opacity: 1;
+        }
+        
+        .remove-history-item {
+            opacity: 0;
+            transition: all 0.15s ease;
+        }
+        
+        body.dark-theme .history-item:hover {
+            background-color: var(--gray-700);
+        }
+        
+        body.dark-theme #search-history-dropdown {
+            background: var(--gray-800);
+            border-color: var(--gray-600);
+        }
+        
+        body.dark-theme #search-history-dropdown .border-gray-200 {
+            border-color: var(--gray-600);
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
@@ -957,9 +988,34 @@
                     </select>
                 </div>
                 
-                <button id="search-button" class="pro-button w-full sm:w-1/3 py-2 px-4 text-sm rounded-lg">
+                <button id="search-button" class="pro-button w-full sm:w-1/4 py-2 px-4 text-sm rounded-lg">
                     <i class="fas fa-search"></i>Search
                 </button>
+                
+                <!-- Search History Button -->
+                <div class="relative">
+                    <button id="history-button" class="pro-button secondary py-2 px-3 text-sm rounded-lg" title="Search History">
+                        <i class="fas fa-history"></i>
+                    </button>
+                    <!-- Search History Dropdown -->
+                    <div id="search-history-dropdown" class="absolute top-full right-0 w-80 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
+                        <div class="p-3 border-b border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium text-gray-700">Recent Searches</span>
+                                <button id="clear-history-button" class="text-xs text-red-600 hover:text-red-800 transition-colors">
+                                    <i class="fas fa-trash mr-1"></i>Clear
+                                </button>
+                            </div>
+                        </div>
+                        <div id="search-history-list" class="p-2">
+                            <!-- History items populated by JS -->
+                        </div>
+                        <div id="no-search-history" class="text-center text-gray-500 py-8 hidden">
+                            <i class="fas fa-search text-2xl mb-2 text-gray-300"></i>
+                            <p class="text-sm">No recent searches</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <p class="text-center text-xs text-gray-500 mt-2">
@@ -1119,6 +1175,14 @@
         let favorites = [];
         let currentArtistName = '';
         let currentAlbumName = '';
+        
+        // Variables for search history
+        let searchHistory = [];
+        const MAX_SEARCH_HISTORY = 12;
+        
+        // Variables for search history
+        let searchHistory = [];
+        const MAX_SEARCH_HISTORY = 12;
         
         // Variables for theme
         let currentTheme = 'light';
@@ -1337,7 +1401,214 @@
             }, 300);
         }
 
-        // === THEME MANAGEMENT ===
+        // === SEARCH HISTORY MANAGEMENT ===
+        
+        // Load search history from localStorage
+        function loadSearchHistory() {
+            try {
+                const saved = localStorage.getItem('musicapp-search-history');
+                searchHistory = saved ? JSON.parse(saved) : [];
+            } catch (error) {
+                console.error('Error loading search history:', error);
+                searchHistory = [];
+            }
+        }
+
+        // Save search history to localStorage
+        function saveSearchHistory() {
+            try {
+                localStorage.setItem('musicapp-search-history', JSON.stringify(searchHistory));
+            } catch (error) {
+                console.error('Error saving search history:', error);
+            }
+        }
+
+        // Add search to history
+        function addToSearchHistory(type, query) {
+            if (!query || query.trim().length < 2) return;
+            
+            const searchItem = {
+                type: type,
+                query: query.trim(),
+                timestamp: new Date().toISOString(),
+                displayName: getSearchDisplayName(type, query.trim())
+            };
+            
+            // Remove duplicates (same type and query)
+            searchHistory = searchHistory.filter(item => 
+                !(item.type === type && item.query.toLowerCase() === query.toLowerCase())
+            );
+            
+            // Add to beginning
+            searchHistory.unshift(searchItem);
+            
+            // Limit to MAX_SEARCH_HISTORY items
+            if (searchHistory.length > MAX_SEARCH_HISTORY) {
+                searchHistory = searchHistory.slice(0, MAX_SEARCH_HISTORY);
+            }
+            
+            saveSearchHistory();
+        }
+
+        // Get display name for search item
+        function getSearchDisplayName(type, query) {
+            switch (type) {
+                case 'artist':
+                    return `Artist: ${query}`;
+                case 'track':
+                    return `Track: ${query}`;
+                case 'genre':
+                    return `Genre: ${query}`;
+                default:
+                    return query;
+            }
+        }
+
+        // Show search history dropdown
+        function showSearchHistory() {
+            renderSearchHistory();
+            document.getElementById('search-history-dropdown').classList.remove('hidden');
+        }
+
+        // Hide search history dropdown
+        function hideSearchHistory() {
+            document.getElementById('search-history-dropdown').classList.add('hidden');
+        }
+
+        // Render search history list
+        function renderSearchHistory() {
+            const historyListEl = document.getElementById('search-history-list');
+            const noHistoryEl = document.getElementById('no-search-history');
+            
+            if (searchHistory.length === 0) {
+                historyListEl.innerHTML = '';
+                noHistoryEl.classList.remove('hidden');
+                return;
+            }
+            
+            noHistoryEl.classList.add('hidden');
+            
+            let html = '';
+            searchHistory.forEach((item, index) => {
+                const timeAgo = getTimeAgo(new Date(item.timestamp));
+                const typeIcon = getSearchTypeIcon(item.type);
+                
+                html += `
+                    <div class="history-item flex items-center justify-between p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors" 
+                         data-type="${item.type}" data-query="${item.query.replace(/"/g, '&quot;')}">
+                        <div class="flex items-center space-x-3 flex-1 min-w-0">
+                            <i class="${typeIcon} text-sm flex-shrink-0"></i>
+                            <div class="min-w-0 flex-1">
+                                <div class="text-sm font-medium text-gray-900 truncate">${item.query}</div>
+                                <div class="text-xs text-gray-500">${item.type} • ${timeAgo}</div>
+                            </div>
+                        </div>
+                        <button class="remove-history-item text-gray-400 hover:text-red-500 p-1 transition-colors" 
+                                data-index="${index}" title="Remove from history">
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            historyListEl.innerHTML = html;
+            
+            // Add event listeners for history items
+            historyListEl.querySelectorAll('.history-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (e.target.closest('.remove-history-item')) return;
+                    
+                    const type = item.dataset.type;
+                    const query = item.dataset.query;
+                    applyHistorySearch(type, query);
+                });
+            });
+            
+            // Add event listeners for remove buttons
+            historyListEl.querySelectorAll('.remove-history-item').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const index = parseInt(btn.dataset.index);
+                    removeHistoryItem(index);
+                });
+            });
+        }
+
+        // Get icon for search type
+        function getSearchTypeIcon(type) {
+            switch (type) {
+                case 'artist':
+                    return 'fas fa-user text-blue-500';
+                case 'track':
+                    return 'fas fa-play-circle text-green-500';
+                case 'genre':
+                    return 'fas fa-music text-purple-500';
+                default:
+                    return 'fas fa-search text-gray-500';
+            }
+        }
+
+        // Get time ago string
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            
+            if (diffMins < 1) return 'just now';
+            if (diffMins < 60) return `${diffMins}m ago`;
+            if (diffHours < 24) return `${diffHours}h ago`;
+            if (diffDays < 7) return `${diffDays}d ago`;
+            return date.toLocaleDateString();
+        }
+
+        // Apply history search
+        function applyHistorySearch(type, query) {
+            // Set the correct search type
+            document.querySelector(`input[name="search-type"][value="${type}"]`).checked = true;
+            handleSearchTypeChange();
+            
+            // Set the query in the appropriate field
+            if (type === 'artist') {
+                artistSearchEl.value = query;
+                hideSuggestions();
+                searchArtists(query);
+            } else if (type === 'track') {
+                trackSearchEl.value = query;
+                hideTrackSuggestions();
+                searchTracks(query);
+            } else if (type === 'genre') {
+                genreSelectEl.value = query;
+                searchArtistsByGenre(query);
+            }
+            
+            hideSearchHistory();
+            showMessage(`Applied search: ${getSearchDisplayName(type, query)}`);
+        }
+
+        // Remove history item
+        function removeHistoryItem(index) {
+            searchHistory.splice(index, 1);
+            saveSearchHistory();
+            renderSearchHistory();
+            showMessage('Search removed from history');
+        }
+
+        // Clear all search history
+        function clearSearchHistory() {
+            if (searchHistory.length === 0) {
+                showMessage('Search history is already empty');
+                return;
+            }
+            
+            if (confirm(`Clear all ${searchHistory.length} search history items?`)) {
+                searchHistory = [];
+                saveSearchHistory();
+                renderSearchHistory();
+                showMessage('Search history cleared');
+            }
+        }
         
         // Load saved theme
         function loadTheme() {
@@ -2281,6 +2552,7 @@
                 const artistName = artistSearchEl.value.trim();
                 if (artistName) {
                     hideSuggestions();
+                    addToSearchHistory('artist', artistName);
                     searchArtists(artistName);
                 } else {
                     showMessage("Enter an artist name to search.");
@@ -2289,6 +2561,7 @@
                 const trackName = trackSearchEl.value.trim();
                 if (trackName) {
                     hideTrackSuggestions();
+                    addToSearchHistory('track', trackName);
                     searchTracks(trackName);
                 } else {
                     showMessage("Enter a track name to search.");
@@ -2296,6 +2569,7 @@
             } else if (searchType === 'genre') {
                 const selectedGenre = genreSelectEl.value;
                 if (selectedGenre) {
+                    addToSearchHistory('genre', selectedGenre);
                     searchArtistsByGenre(selectedGenre);
                 } else {
                     showMessage("Select a genre to search.");
@@ -2539,6 +2813,9 @@
             if (!e.target.closest('#track-search') && !e.target.closest('#track-suggestions')) {
                 hideTrackSuggestions();
             }
+            if (!e.target.closest('#history-button') && !e.target.closest('#search-history-dropdown')) {
+                hideSearchHistory();
+            }
         });
         
         // Handle focus to show suggestions again if needed
@@ -2561,6 +2838,22 @@
                     showTrackSuggestions();
                 }
             }
+        });
+
+        // Event listeners for search history
+        document.getElementById('history-button').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dropdown = document.getElementById('search-history-dropdown');
+            if (dropdown.classList.contains('hidden')) {
+                showSearchHistory();
+            } else {
+                hideSearchHistory();
+            }
+        });
+        
+        document.getElementById('clear-history-button').addEventListener('click', (e) => {
+            e.stopPropagation();
+            clearSearchHistory();
         });
 
         // Event listeners for favorites
@@ -2612,6 +2905,7 @@
             initializeGenres();
             handleSearchTypeChange(); // Set initial state
             loadFavorites(); // Load saved favorites
+            loadSearchHistory(); // Load search history
         });
     </script>
 </body>
