@@ -1180,12 +1180,8 @@
         let searchHistory = [];
         const MAX_SEARCH_HISTORY = 12;
         
-        // Variables for search history
-        let searchHistory = [];
-        const MAX_SEARCH_HISTORY = 12;
-        
         // Variables for theme
-        let currentTheme = 'light';
+        let currentTheme = 'dark';
         
         // Variables for random song
         let isGettingRandomSong = false;
@@ -1388,6 +1384,11 @@
                                     onclick="openYoutubeTutorial('${artist.name.replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
                                     title="YouTube Tutorial">
                                 <i class="fab fa-youtube text-red-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openUltimateGuitar('${track.title.replace(/'/g, "\\'")}', '${artist.name.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="Ultimate Guitar Tabs">
+                                <i class="fas fa-music text-orange-500 text-sm"></i>
                             </button>
                             <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
                                     onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${artist.name.replace(/'/g, "\\'")}', '${album.title.replace(/'/g, "\\'")}', this)" 
@@ -1614,13 +1615,13 @@
         function loadTheme() {
             try {
                 const savedTheme = localStorage.getItem('musicapp-theme');
-                currentTheme = savedTheme || 'light';
+                currentTheme = savedTheme || 'dark';
                 applyTheme(currentTheme);
                 updateThemeSelector();
             } catch (error) {
                 console.error('Error loading theme:', error);
-                currentTheme = 'light';
-                applyTheme('light');
+                currentTheme = 'dark';
+                applyTheme('dark');
             }
         }
 
@@ -1815,6 +1816,11 @@
                                         onclick="openYoutubeTutorial('${artist.replace(/'/g, "\\'")}', '${favorite.title.replace(/'/g, "\\'")}'); event.stopPropagation();"
                                         title="YouTube Tutorial">
                                     <i class="fab fa-youtube text-red-500 text-xs"></i>
+                                </button>
+                                <button class="pro-button secondary p-1 rounded text-xs flex-shrink-0" 
+                                        onclick="openUltimateGuitar('${favorite.title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}'); event.stopPropagation();"
+                                        title="Ultimate Guitar Tabs">
+                                    <i class="fas fa-music text-orange-500 text-xs"></i>
                                 </button>
                                 <button class="pro-button secondary p-1 rounded text-xs flex-shrink-0" 
                                         onclick="removeFavoriteFromList('${favorite.title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}', '${album.replace(/'/g, "\\'")}')"
@@ -2310,6 +2316,11 @@
                                         title="YouTube Tutorial">
                                     <i class="fab fa-youtube text-red-500 text-sm"></i>
                                 </button>
+                                <button class="pro-button secondary p-2 rounded-lg text-xs hover:bg-orange-50 hover:border-orange-200 transition-colors" 
+                                        onclick="openUltimateGuitar('${track.title.replace(/'/g, "\\'")}', '${artistName.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                        title="Ultimate Guitar Tabs">
+                                    <i class="fas fa-music text-orange-500 text-sm"></i>
+                                </button>
                                 <button class="pro-button secondary p-2 rounded-lg text-xs hover:bg-pink-50 hover:border-pink-200 transition-colors" 
                                         onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${artistName.replace(/'/g, "\\'")}', '${albumName.replace(/'/g, "\\'")}', this)" 
                                         title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
@@ -2705,6 +2716,11 @@
                             <i class="fab fa-youtube text-red-500 text-sm"></i>
                         </button>
                         <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                onclick="openUltimateGuitar('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                title="Ultimate Guitar Tabs">
+                            <i class="fas fa-music text-orange-500 text-sm"></i>
+                        </button>
+                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
                                 onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}', '${getCurrentAlbumName().replace(/'/g, "\\'")}', this)" 
                                 title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
                             <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'} text-sm"></i>
@@ -2731,6 +2747,15 @@
             const youtubeUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
             window.open(youtubeUrl, '_blank');
             showMessage(`Searching for "${track}" tutorial on YouTube...`);
+        }
+
+        // Open Ultimate Guitar Tabs
+        function openUltimateGuitar(track, artist) {
+            const searchQuery = `${artist} ${track}`;
+            const encodedQuery = encodeURIComponent(searchQuery);
+            const ultimateGuitarUrl = `https://www.ultimate-guitar.com/search.php?search_type=title&value=${encodedQuery}`;
+            window.open(ultimateGuitarUrl, '_blank');
+            showMessage(`Searching for "${track}" tabs on Ultimate Guitar...`);
         }
 
         // Add event listeners
