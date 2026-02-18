@@ -411,11 +411,17 @@
         }
         
         /* Professional random button */
-        .random-song-btn {
+        .top-controls {
             position: fixed;
             top: 1rem;
-            right: 6rem;
+            right: 1rem;
             z-index: 50;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .random-song-btn {
             background: var(--accent-orange);
             color: white;
             border: none;
@@ -427,7 +433,9 @@
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
+            min-width: 100px;
         }
         
         .random-song-btn:hover {
@@ -457,7 +465,7 @@
         /* Professional favorites menu */
         .favorites-menu {
             position: fixed;
-            top: 3.5rem;
+            top: 8rem;
             right: 1rem;
             z-index: 50;
             background: white;
@@ -506,19 +514,20 @@
         }
         
         .favorites-menu-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 3.5rem;
-            z-index: 50;
             background: var(--gray-100);
             color: var(--gray-700);
             border: 1px solid var(--gray-300);
             border-radius: 8px;
-            padding: 8px 10px;
-            font-size: 12px;
+            padding: 8px 12px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-width: 100px;
         }
         
         .favorites-menu-toggle:hover {
@@ -541,19 +550,90 @@
         #favorites-button {
             background: var(--accent-red) !important;
             color: white !important;
-            border: none !important;
+            border: 1px solid var(--accent-red) !important;
             border-radius: 8px !important;
             padding: 8px 12px !important;
             font-size: 14px !important;
             font-weight: 500 !important;
             transition: all 0.2s ease !important;
             box-shadow: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            min-width: 100px !important;
         }
         
         #favorites-button:hover {
             background: var(--error) !important;
             transform: translateY(-1px) !important;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Top controls container */
+        .top-controls {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 50;
+        }
+        
+        .top-controls button,
+        .top-controls .random-song-btn {
+            background: var(--primary) !important;
+            color: white !important;
+            border: 1px solid var(--primary) !important;
+            border-radius: 8px !important;
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+            box-shadow: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            min-width: 100px !important;
+            cursor: pointer !important;
+        }
+        
+        .top-controls button:hover,
+        .top-controls .random-song-btn:hover {
+            background: var(--primary-dark) !important;
+            transform: translateY(-1px);
+        }
+        
+        .top-controls #favorites-button {
+            background: var(--accent-red) !important;
+            border-color: var(--accent-red) !important;
+        }
+        
+        .top-controls #favorites-button:hover {
+            background: var(--error) !important;
+        }
+        
+        body.dark-theme .top-controls button,
+        body.dark-theme .top-controls .random-song-btn {
+            background: var(--gray-700) !important;
+            color: var(--gray-200) !important;
+            border-color: var(--gray-600) !important;
+        }
+        
+        body.dark-theme .top-controls button:hover,
+        body.dark-theme .top-controls .random-song-btn:hover {
+            background: var(--gray-600) !important;
+        }
+        
+        body.dark-theme .top-controls #favorites-button {
+            background: var(--accent-red) !important;
+            border-color: var(--accent-red) !important;
+        }
+        
+        body.dark-theme .top-controls #favorites-button:hover {
+            background: var(--error) !important;
         }
         
         /* Professional scrollbars */
@@ -741,10 +821,25 @@
         </div>
     </div>
 
-    <!-- Random Song Button -->
-    <div class="random-song-btn" id="random-song-btn" title="Get Random Song">
-        <i class="fas fa-random"></i>
-        <span>Random</span>
+    <!-- Top Controls Container -->
+    <div class="top-controls">
+        <!-- Random Song Button -->
+        <div class="random-song-btn" id="random-song-btn" title="Get Random Song">
+            <i class="fas fa-random"></i>
+            <span>Random</span>
+        </div>
+        
+        <!-- Favorites Menu Toggle -->
+        <button id="favorites-menu-toggle" class="favorites-menu-toggle" title="Menu Preferiti">
+            <i class="fas fa-cog mr-1"></i>
+            <span style="font-size: 0.75rem; font-weight: 500;">Menu</span>
+        </button>
+        
+        <!-- Favorites Button -->
+        <button id="favorites-button" title="View Favorites">
+            <i class="fas fa-heart mr-1"></i>
+            <span id="favorites-count" class="text-sm font-bold">0</span>
+        </button>
     </div>
 
     <!-- Search Bar -->
@@ -823,22 +918,8 @@
                         <p class="text-sm">Add your favorite songs by clicking the hearts!</p>
                     </div>
                 </div>
-            </div>
         </div>
-
-        <!-- Favorites Button (floating) -->
-        <button id="favorites-button" class="fixed top-4 right-4 bg-red-500 text-white p-3 rounded-full shadow-lg hover:bg-red-600 transition-colors duration-200 z-40">
-            <i class="fas fa-heart mr-1"></i>
-            <span id="favorites-count" class="text-sm font-bold">0</span>
-        </button>
-
-        <!-- Favorites Menu Toggle -->
-        <button id="favorites-menu-toggle" class="favorites-menu-toggle" title="Menu Preferiti">
-            <i class="fas fa-cog mr-1"></i>
-            <span style="font-size: 0.75rem; font-weight: 500;">Menu</span>
-        </button>
-
-        <!-- Favorites Menu -->
+    </div>        <!-- Favorites Menu -->
         <div id="favorites-menu" class="favorites-menu hidden">
             <div class="favorites-menu-item" id="export-favorites">
                 <i class="fas fa-download"></i>
