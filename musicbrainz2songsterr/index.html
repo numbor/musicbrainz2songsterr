@@ -1370,15 +1370,16 @@
                     trackItem.className = 'track-item list-item flex items-center justify-between py-2 px-3 bg-yellow-50 border-l-4 border-yellow-500';
                     trackItem.innerHTML = `
                         <div class="flex items-center space-x-3 flex-1 min-w-0">
-                            <button class="flex items-center space-x-2 text-left flex-1 min-w-0 hover:text-blue-600 transition-colors" 
-                                    onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${artist.name.replace(/'/g, "\\'")}')">
-                                <i class="fas fa-play text-blue-500 text-sm flex-shrink-0"></i>
-                                <div class="min-w-0 flex-1">
-                                    <span class="text-gray-900 font-medium text-sm block truncate" title="${track.title}">${track.title}</span>
-                                    <div class="text-xs text-yellow-600 flex items-center">
-                                        <i class="fas fa-random mr-1"></i>Random Track
-                                    </div>
+                            <div class="min-w-0 flex-1">
+                                <span class="text-gray-900 font-medium text-sm block truncate" title="${track.title}">${track.title}</span>
+                                <div class="text-xs text-yellow-600 flex items-center">
+                                    <i class="fas fa-random mr-1"></i>Random Track
                                 </div>
+                            </div>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${artist.name.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="Songsterr Tabs">
+                                <i class="fas fa-guitar text-blue-500 text-sm"></i>
                             </button>
                             <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
                                     onclick="openYoutubeTutorial('${artist.name.replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
@@ -1807,10 +1808,13 @@
                     groupedFavorites[artist][album].forEach(favorite => {
                         html += `<div class="flex items-center justify-between p-2 bg-gray-50 rounded hover:bg-gray-100 transition-colors">
                             <div class="flex items-center space-x-2 flex-1 min-w-0">
-                                <button class="flex items-center space-x-2 text-left flex-1 min-w-0 hover:text-blue-600 transition-colors" 
-                                        onclick="openSongsterr('${favorite.title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}')">
-                                    <i class="fas fa-play text-blue-500 text-xs flex-shrink-0"></i>
-                                    <span class="text-gray-800 text-sm truncate" title="${favorite.title}">${favorite.title}</span>
+                                <div class="flex-1 min-w-0">
+                                    <span class="text-gray-800 text-sm font-medium truncate" title="${favorite.title}">${favorite.title}</span>
+                                </div>
+                                <button class="pro-button secondary p-1 rounded text-xs flex-shrink-0" 
+                                        onclick="openSongsterr('${favorite.title.replace(/'/g, "\\'")}', '${artist.replace(/'/g, "\\'")}'); event.stopPropagation();"
+                                        title="Songsterr Tabs">
+                                    <i class="fas fa-guitar text-blue-500 text-xs"></i>
                                 </button>
                                 <button class="pro-button secondary p-1 rounded text-xs flex-shrink-0" 
                                         onclick="openYoutubeTutorial('${artist.replace(/'/g, "\\'")}', '${favorite.title.replace(/'/g, "\\'")}'); event.stopPropagation();"
@@ -2298,19 +2302,20 @@
                     
                     trackItem.innerHTML = `
                         <div class="flex items-center space-x-3">
-                            <button class="flex items-center space-x-2 text-left flex-1 min-w-0 hover:text-blue-600 transition-colors group" 
-                                    onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${artistName.replace(/'/g, "\\'")}')">
-                                <i class="fas fa-play text-green-500 text-sm flex-shrink-0 group-hover:text-green-600"></i>
-                                <div class="min-w-0 flex-1">
-                                    <div class="text-gray-900 font-medium text-sm truncate group-hover:text-blue-600" title="${track.title}">${track.title}</div>
-                                    <div class="flex items-center text-xs text-gray-500 mt-1">
-                                        <i class="fas fa-compact-disc mr-1"></i>
-                                        <span class="truncate">${albumName}</span>
-                                        ${trackDuration ? `<span class="mx-2">•</span><span class="font-mono">${trackDuration}</span>` : ''}
-                                    </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-gray-900 font-medium text-sm truncate" title="${track.title}">${track.title}</div>
+                                <div class="flex items-center text-xs text-gray-500 mt-1">
+                                    <i class="fas fa-compact-disc mr-1"></i>
+                                    <span class="truncate">${albumName}</span>
+                                    ${trackDuration ? `<span class="mx-2">•</span><span class="font-mono">${trackDuration}</span>` : ''}
                                 </div>
-                            </button>
+                            </div>
                             <div class="flex items-center space-x-2 flex-shrink-0">
+                                <button class="pro-button secondary p-2 rounded-lg text-xs hover:bg-blue-50 hover:border-blue-200 transition-colors" 
+                                        onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${artistName.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                        title="Songsterr Tabs">
+                                    <i class="fas fa-guitar text-blue-500 text-sm"></i>
+                                </button>
                                 <button class="pro-button secondary p-2 rounded-lg text-xs hover:bg-red-50 hover:border-red-200 transition-colors" 
                                         onclick="openYoutubeTutorial('${artistName.replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
                                         title="YouTube Tutorial">
@@ -2705,10 +2710,13 @@
                 
                 li.innerHTML = `
                     <div class="flex items-center space-x-3 flex-1 min-w-0">
-                        <button class="flex items-center space-x-2 text-left flex-1 min-w-0 hover:text-blue-600 transition-colors" 
-                                onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}')">
-                            <i class="fas fa-play text-blue-500 text-sm flex-shrink-0"></i>
-                            <span class="text-gray-900 truncate text-sm" title="${track.title}">${track.title}</span>
+                        <div class="flex-1 min-w-0">
+                            <span class="text-gray-900 truncate text-sm font-medium" title="${track.title}">${track.title}</span>
+                        </div>
+                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                title="Songsterr Tabs">
+                            <i class="fas fa-guitar text-blue-500 text-sm"></i>
                         </button>
                         <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
                                 onclick="openYoutubeTutorial('${getCurrentArtistName().replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
