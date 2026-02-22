@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
-        
+
         :root {
             --primary-blue: #2563eb;
             --primary-blue-light: #3b82f6;
@@ -30,7 +31,7 @@
             --warning: #d97706;
             --error: #dc2626;
         }
-        
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--gray-50);
@@ -38,7 +39,7 @@
             line-height: 1.5;
             transition: all 0.2s ease;
         }
-        
+
         /* Professional card styling */
         .pro-card {
             background: white;
@@ -46,11 +47,11 @@
             border-radius: 8px;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
-        
+
         .pro-card:hover {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-        
+
         /* Professional button styling */
         .pro-button {
             background: var(--primary-blue);
@@ -66,27 +67,27 @@
             justify-content: center;
             gap: 0.5rem;
         }
-        
+
         .pro-button:hover {
             background: var(--primary-blue-dark);
             transform: translateY(-1px);
         }
-        
+
         .pro-button:active {
             transform: translateY(0);
         }
-        
+
         .pro-button.secondary {
             background: var(--gray-100);
             color: var(--gray-700);
             border: 1px solid var(--gray-300);
         }
-        
+
         .pro-button.secondary:hover {
             background: var(--gray-200);
             color: var(--gray-800);
         }
-        
+
         /* Professional input styling */
         .pro-input {
             background: white;
@@ -96,171 +97,173 @@
             font-size: 14px;
             transition: all 0.2s ease;
         }
-        
+
         .pro-input:focus {
             border-color: var(--primary-blue);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
             outline: none;
         }
-        
+
         .pro-input::placeholder {
             color: var(--gray-400);
         }
-        
+
         /* Headers */
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             font-family: 'Inter', sans-serif;
             color: var(--gray-900);
             font-weight: 600;
             margin: 0;
         }
-        
+
         /* Logo Styles */
         .logo-container {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .logo-container:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
-        
+
         header h1 {
             font-size: 2.5rem;
             line-height: 1.1;
             font-weight: 700;
         }
-        
+
         header h2 {
             font-size: 1.5rem;
             line-height: 1.2;
             font-weight: 600;
         }
-        
+
         /* Dark theme - Professional */
         body.dark-theme {
             background-color: var(--gray-900);
             color: var(--gray-100);
         }
-        
+
         body.dark-theme .pro-card {
             background: var(--gray-800);
             border-color: var(--gray-700);
         }
-        
+
         body.dark-theme .pro-card:hover {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
         }
-        
+
         body.dark-theme .pro-input {
             background: var(--gray-800);
             border-color: var(--gray-600);
             color: var(--gray-100);
         }
-        
+
         body.dark-theme .pro-input:focus {
             border-color: var(--primary-blue-light);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
-        
+
         body.dark-theme .pro-button.secondary {
             background: var(--gray-700);
             color: var(--gray-200);
             border-color: var(--gray-600);
         }
-        
+
         body.dark-theme .pro-button.secondary:hover {
             background: var(--gray-600);
             color: var(--gray-100);
         }
-        
-        body.dark-theme h1, 
-        body.dark-theme h2, 
+
+        body.dark-theme h1,
+        body.dark-theme h2,
         body.dark-theme h3 {
             color: var(--gray-100);
         }
-        
+
         /* Dark theme logo styles */
         body.dark-theme header h2 {
             color: var(--gray-300);
         }
-        
+
         body.dark-theme header p {
             color: var(--gray-400);
         }
-        
+
         body.dark-theme .bg-white {
             background-color: #374151 !important;
         }
-        
+
         body.dark-theme .bg-gray-50 {
             background-color: #4b5563 !important;
         }
-        
+
         body.dark-theme .bg-gray-100 {
             background-color: #374151 !important;
         }
-        
+
         body.dark-theme .text-gray-800 {
             color: #ffffff !important;
         }
-        
+
         body.dark-theme .text-gray-700 {
             color: #ffffff !important;
         }
-        
+
         body.dark-theme .text-gray-600 {
             color: #ffffff !important;
         }
-        
+
         body.dark-theme .text-gray-500 {
             color: #ffffff !important;
         }
-        
+
         body.dark-theme .text-gray-400 {
             color: #ffffff !important;
         }
-        
+
         body.dark-theme .text-gray-300 {
             color: #ffffff !important;
         }
-        
+
         body.dark-theme .text-blue-600 {
             color: #60a5fa !important;
         }
-        
+
         body.dark-theme .text-blue-500 {
             color: #3b82f6 !important;
         }
-        
+
         body.dark-theme .text-green-600 {
             color: #4ade80 !important;
         }
-        
+
         body.dark-theme .text-green-500 {
             color: #22c55e !important;
         }
-        
+
         body.dark-theme .text-yellow-600 {
             color: #facc15 !important;
         }
-        
+
         body.dark-theme .text-red-500 {
             color: #ef4444 !important;
         }
-        
+
         body.dark-theme .text-red-600 {
             color: #dc2626 !important;
         }
-        
+
         body.dark-theme .text-red-800 {
             color: #ef4444 !important;
         }
-        
+
         body.dark-theme .text-white {
             color: #ffffff !important;
         }
-        
+
         /* Ensure all text in lists is white in dark theme */
         body.dark-theme .list-item span,
         body.dark-theme .list-item div,
@@ -269,82 +272,82 @@
         body.dark-theme #track-list span {
             color: #ffffff !important;
         }
-        
+
         /* Override any specific text colors in dark theme */
         body.dark-theme .font-medium,
         body.dark-theme .font-semibold,
         body.dark-theme .font-bold {
             color: #ffffff !important;
         }
-        
+
         body.dark-theme .border-gray-200 {
             border-color: #4b5563 !important;
         }
-        
+
         body.dark-theme .border-gray-300 {
             border-color: #6b7280 !important;
         }
-        
+
         body.dark-theme .border-gray-100 {
             border-color: #374151 !important;
         }
-        
-        body.dark-theme .divide-gray-200 > * + * {
+
+        body.dark-theme .divide-gray-200>*+* {
             border-color: #4b5563 !important;
         }
-        
-        body.dark-theme .divide-gray-100 > * + * {
+
+        body.dark-theme .divide-gray-100>*+* {
             border-color: #374151 !important;
         }
-        
+
         body.dark-theme .hover\:bg-gray-100:hover {
             background-color: #4b5563 !important;
         }
-        
+
         body.dark-theme .hover\:bg-gray-200:hover {
             background-color: #6b7280 !important;
         }
-        
+
         body.dark-theme .bg-blue-50 {
             background-color: #1e3a8a !important;
         }
-        
+
         body.dark-theme .bg-green-50 {
             background-color: #14532d !important;
         }
-        
+
         body.dark-theme .bg-yellow-50 {
             background-color: #451a03 !important;
         }
-        
+
         body.dark-theme .border-blue-500 {
             border-color: #3b82f6 !important;
         }
-        
+
         body.dark-theme .border-green-500 {
             border-color: #10b981 !important;
         }
-        
+
         body.dark-theme .border-yellow-500 {
             border-color: #f59e0b !important;
         }
-        
+
         body.dark-theme .list-item:hover {
             background-color: #4b5563;
         }
-        
+
         body.dark-theme .active-item {
             background-color: #6b7280;
         }
-        
+
         body.dark-theme .suggestion-item:hover {
             background-color: #4b5563;
         }
-        
+
         body.dark-theme .suggestion-item.highlighted {
             background-color: #6b7280;
         }
-        
+
         /* Input fields in dark theme */
         body.dark-theme input[type="text"],
         body.dark-theme select {
@@ -352,43 +355,43 @@
             color: #ffffff !important;
             border-color: #6b7280 !important;
         }
-        
+
         body.dark-theme input[type="text"]::placeholder {
             color: #9ca3af !important;
         }
-        
+
         body.dark-theme input[type="text"]:focus,
         body.dark-theme select:focus {
             border-color: #3b82f6 !important;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
         }
-        
+
         /* Button hover states in dark theme */
         body.dark-theme .hover\:text-gray-700:hover {
             color: #f3f4f6 !important;
         }
-        
+
         body.dark-theme .hover\:text-red-700:hover {
             color: #ef4444 !important;
         }
-        
+
         /* YouTube button styles */
         .youtube-btn:hover {
             background-color: #fef2f2 !important;
         }
-        
+
         body.dark-theme .youtube-btn:hover {
             background-color: #7f1d1d !important;
         }
-        
+
         body.dark-theme .text-red-600 {
             color: #f87171 !important;
         }
-        
+
         body.dark-theme .text-red-800 {
             color: #fca5a5 !important;
         }
-        
+
         /* Professional theme selector */
         .theme-selector {
             position: fixed;
@@ -403,12 +406,12 @@
             display: flex;
             gap: 4px;
         }
-        
+
         body.dark-theme .theme-selector {
             background: var(--gray-800);
             border-color: var(--gray-600);
         }
-        
+
         .theme-option {
             display: flex;
             align-items: center;
@@ -421,26 +424,26 @@
             font-size: 14px;
             color: var(--gray-600);
         }
-        
+
         .theme-option:hover {
             background-color: var(--gray-100);
             color: var(--gray-800);
         }
-        
+
         .theme-option.active {
             background-color: var(--primary-blue);
             color: white;
         }
-        
+
         body.dark-theme .theme-option {
             color: var(--gray-400);
         }
-        
+
         body.dark-theme .theme-option:hover {
             background-color: var(--gray-700);
             color: var(--gray-200);
         }
-        
+
         /* Professional random button */
         .top-controls {
             position: fixed;
@@ -451,7 +454,7 @@
             flex-direction: column;
             gap: 8px;
         }
-        
+
         .random-song-btn {
             background: var(--accent-orange);
             color: white;
@@ -468,31 +471,36 @@
             gap: 6px;
             min-width: 100px;
         }
-        
+
         .random-song-btn:hover {
             background: var(--warning);
             transform: translateY(-1px);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
+
         .random-song-btn i {
             font-size: 14px;
             transition: transform 0.2s ease;
         }
-        
+
         .random-song-btn:hover i {
             transform: rotate(90deg);
         }
-        
+
         .random-song-btn.loading i {
             animation: simple-spin 1s linear infinite;
         }
-        
+
         @keyframes simple-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
-        
+
         /* Professional favorites menu */
         .favorites-menu {
             position: fixed;
@@ -506,12 +514,12 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             min-width: 180px;
         }
-        
+
         body.dark-theme .favorites-menu {
             background: var(--gray-800);
             border-color: var(--gray-600);
         }
-        
+
         .favorites-menu-item {
             display: flex;
             align-items: center;
@@ -522,28 +530,28 @@
             font-size: 14px;
             font-weight: 400;
         }
-        
+
         .favorites-menu-item:hover {
             background-color: var(--gray-100);
             color: var(--gray-900);
         }
-        
+
         .favorites-menu-item i {
             margin-right: 8px;
             width: 16px;
             text-align: center;
             font-size: 14px;
         }
-        
+
         body.dark-theme .favorites-menu-item {
             color: var(--gray-300);
         }
-        
+
         body.dark-theme .favorites-menu-item:hover {
             background-color: var(--gray-700);
             color: var(--gray-100);
         }
-        
+
         .favorites-menu-toggle {
             background: var(--gray-100);
             color: var(--gray-700);
@@ -560,23 +568,23 @@
             gap: 6px;
             min-width: 100px;
         }
-        
+
         .favorites-menu-toggle:hover {
             background: var(--gray-200);
             color: var(--gray-800);
         }
-        
+
         body.dark-theme .favorites-menu-toggle {
             background: var(--gray-700);
             color: var(--gray-300);
             border-color: var(--gray-600);
         }
-        
+
         body.dark-theme .favorites-menu-toggle:hover {
             background: var(--gray-600);
             color: var(--gray-200);
         }
-        
+
         /* Professional favorites button */
         #favorites-button {
             background: var(--accent-red) !important;
@@ -594,13 +602,13 @@
             gap: 6px !important;
             min-width: 100px !important;
         }
-        
+
         #favorites-button:hover {
             background: var(--error) !important;
             transform: translateY(-1px) !important;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
         }
-        
+
         /* Top controls container */
         .top-controls {
             position: fixed;
@@ -611,7 +619,7 @@
             gap: 0.5rem;
             z-index: 50;
         }
-        
+
         .top-controls button,
         .top-controls .random-song-btn {
             background: var(--primary) !important;
@@ -630,109 +638,114 @@
             min-width: 100px !important;
             cursor: pointer !important;
         }
-        
+
         .top-controls button:hover,
         .top-controls .random-song-btn:hover {
             background: var(--primary-dark) !important;
             transform: translateY(-1px);
         }
-        
+
         .top-controls #favorites-button {
             background: var(--accent-red) !important;
             border-color: var(--accent-red) !important;
         }
-        
+
         .top-controls #favorites-button:hover {
             background: var(--error) !important;
         }
-        
+
         body.dark-theme .top-controls button,
         body.dark-theme .top-controls .random-song-btn {
             background: var(--gray-700) !important;
             color: var(--gray-200) !important;
             border-color: var(--gray-600) !important;
         }
-        
+
         body.dark-theme .top-controls button:hover,
         body.dark-theme .top-controls .random-song-btn:hover {
             background: var(--gray-600) !important;
         }
-        
+
         body.dark-theme .top-controls #favorites-button {
             background: var(--accent-red) !important;
             border-color: var(--accent-red) !important;
         }
-        
+
         body.dark-theme .top-controls #favorites-button:hover {
             background: var(--error) !important;
         }
-        
+
         /* Professional scrollbars */
         .scrollable-column {
             overflow-y: auto;
             scrollbar-width: thin;
             scrollbar-color: var(--gray-400) var(--gray-100);
         }
-        
+
         .scrollable-column::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         .scrollable-column::-webkit-scrollbar-track {
             background: var(--gray-100);
             border-radius: 4px;
         }
-        
+
         .scrollable-column::-webkit-scrollbar-thumb {
             background: var(--gray-400);
             border-radius: 4px;
         }
-        
+
         .scrollable-column::-webkit-scrollbar-thumb:hover {
             background: var(--gray-500);
         }
-        
+
         /* Dark theme scrollbar adjustments */
         body.dark-theme .scrollable-column {
             scrollbar-color: var(--gray-600) var(--gray-800);
         }
-        
+
         body.dark-theme .scrollable-column::-webkit-scrollbar-track {
             background: var(--gray-800);
         }
-        
+
         body.dark-theme .scrollable-column::-webkit-scrollbar-thumb {
             background: var(--gray-600);
         }
-        
+
         body.dark-theme .scrollable-column::-webkit-scrollbar-thumb:hover {
             background: var(--gray-500);
         }
-        
+
         /* Scrollbar styling for suggestions and favorites */
-        #search-suggestions, #favorites-list {
+        #search-suggestions,
+        #favorites-list {
             scrollbar-width: thin;
             scrollbar-color: var(--gray-400) var(--gray-100);
         }
-        
-        #search-suggestions::-webkit-scrollbar, #favorites-list::-webkit-scrollbar {
+
+        #search-suggestions::-webkit-scrollbar,
+        #favorites-list::-webkit-scrollbar {
             width: 6px;
         }
-        
-        #search-suggestions::-webkit-scrollbar-track, #favorites-list::-webkit-scrollbar-track {
+
+        #search-suggestions::-webkit-scrollbar-track,
+        #favorites-list::-webkit-scrollbar-track {
             background: var(--gray-100);
             border-radius: 3px;
         }
-        
-        #search-suggestions::-webkit-scrollbar-thumb, #favorites-list::-webkit-scrollbar-thumb {
+
+        #search-suggestions::-webkit-scrollbar-thumb,
+        #favorites-list::-webkit-scrollbar-thumb {
             background: var(--gray-400);
             border-radius: 3px;
         }
-        
-        #search-suggestions::-webkit-scrollbar-thumb:hover, #favorites-list::-webkit-scrollbar-thumb:hover {
+
+        #search-suggestions::-webkit-scrollbar-thumb:hover,
+        #favorites-list::-webkit-scrollbar-thumb:hover {
             background: var(--gray-500);
         }
-        
+
         /* Compact list items with minimal borders */
         .list-item {
             cursor: pointer;
@@ -743,40 +756,40 @@
             line-height: 1.4;
             position: relative;
         }
-        
+
         .list-item:last-child {
             border-bottom: none;
         }
-        
+
         .list-item:hover {
             background-color: var(--gray-50);
             border-left: 3px solid var(--primary-blue);
             padding-left: 9px;
         }
-        
+
         .list-item.active-item {
             background-color: rgba(37, 99, 235, 0.05);
             border-left: 3px solid var(--primary-blue);
             padding-left: 9px;
             font-weight: 500;
         }
-        
+
         /* Dark theme list adjustments */
         body.dark-theme .list-item {
             border-bottom-color: var(--gray-700);
             color: var(--gray-200);
         }
-        
+
         body.dark-theme .list-item:hover {
             background-color: var(--gray-800);
             border-left-color: var(--primary-blue-light);
         }
-        
+
         body.dark-theme .list-item.active-item {
             background-color: rgba(59, 130, 246, 0.1);
             border-left-color: var(--primary-blue-light);
         }
-        
+
         /* Compact track items */
         .track-item {
             padding: 6px 12px;
@@ -786,34 +799,34 @@
             background: white;
             font-size: 13px;
         }
-        
+
         .track-item:hover {
             border-color: var(--primary-blue);
             background-color: var(--gray-50);
             padding-left: 12px;
         }
-        
+
         /* Inline button spacing for tracks */
         .track-item .pro-button {
             padding: 4px 6px;
             min-width: auto;
         }
-        
+
         .track-item .pro-button i {
             margin: 0;
         }
-        
+
         body.dark-theme .track-item {
             background: var(--gray-800);
             border-color: var(--gray-700);
             color: var(--gray-200);
         }
-        
+
         body.dark-theme .track-item:hover {
             border-color: var(--primary-blue-light);
             background-color: var(--gray-700);
         }
-        
+
         /* Compact suggestion items */
         .suggestion-item {
             cursor: pointer;
@@ -822,64 +835,68 @@
             font-size: 14px;
             border-bottom: 1px solid var(--gray-200);
         }
-        
+
         .suggestion-item:last-child {
             border-bottom: none;
         }
-        
-        .suggestion-item:hover, .suggestion-item.highlighted {
+
+        .suggestion-item:hover,
+        .suggestion-item.highlighted {
             background-color: var(--primary-blue);
             color: white;
         }
-        
+
         body.dark-theme .suggestion-item {
             border-bottom-color: var(--gray-700);
             color: var(--gray-200);
         }
-        
+
         /* Search History Styles */
         .history-item {
             transition: all 0.15s ease;
         }
-        
+
         .history-item:hover {
             transform: translateX(2px);
         }
-        
+
         .history-item:hover .remove-history-item {
             opacity: 1;
         }
-        
+
         .remove-history-item {
             opacity: 0;
             transition: all 0.15s ease;
         }
-        
+
         body.dark-theme .history-item:hover {
             background-color: var(--gray-700);
         }
-        
+
         body.dark-theme #search-history-dropdown {
             background: var(--gray-800);
             border-color: var(--gray-600);
         }
-        
+
         body.dark-theme #search-history-dropdown .border-gray-200 {
             border-color: var(--gray-600);
         }
     </style>
 </head>
+
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
 
     <!-- Logo Header -->
     <header class="w-full max-w-7xl mb-8">
         <div class="text-center">
             <div class="flex items-center justify-center mb-3">
-                <div class="logo-container bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-2xl shadow-lg mr-4">
+                <div
+                    class="logo-container bg-gradient-to-br from-blue-600 to-purple-600 p-4 rounded-2xl shadow-lg mr-4">
                     <i class="fas fa-guitar text-white text-3xl"></i>
                 </div>
                 <div class="text-left">
-                    <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <h1
+                        class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                         MusicBrainz
                     </h1>
                     <h2 class="text-2xl font-semibold text-gray-700">
@@ -888,7 +905,8 @@
                 </div>
             </div>
             <p class="text-gray-600 text-lg mx-auto whitespace-nowrap">
-                Discover music by artist, track, genre, mood, or find the best songs through MusicBrainz and find guitar tabs on Songsterr, Youtube and UG
+                Discover music by artist, track, genre, mood, or find the best songs through MusicBrainz and find guitar
+                tabs on Songsterr, Youtube and UG
             </p>
         </div>
     </header>
@@ -912,13 +930,13 @@
             <i class="fas fa-random"></i>
             <span>Random</span>
         </div>
-        
+
         <!-- Favorites Menu Toggle -->
         <button id="favorites-menu-toggle" class="favorites-menu-toggle" title="Menu Preferiti">
             <i class="fas fa-cog mr-1"></i>
             <span style="font-size: 0.75rem; font-weight: 500;">Menu</span>
         </button>
-        
+
         <!-- Favorites Button -->
         <button id="favorites-button" title="View Favorites">
             <i class="fas fa-heart mr-1"></i>
@@ -962,14 +980,16 @@
                     </span>
                 </label>
             </div>
-            
+
             <!-- Search fields container -->
             <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-3">
                 <!-- Artist search field -->
                 <div id="artist-search-container" class="relative w-full sm:w-2/3">
-                    <input type="text" id="artist-search" placeholder="Search for an artist (e.g. Black Sabbath)" class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none" autocomplete="off">
+                    <input type="text" id="artist-search" placeholder="Search for an artist (e.g. Black Sabbath)"
+                        class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none" autocomplete="off">
                     <!-- Artist suggestions dropdown -->
-                    <div id="search-suggestions" class="absolute top-full left-0 right-0 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
+                    <div id="search-suggestions"
+                        class="absolute top-full left-0 right-0 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
                         <div id="suggestions-loading" class="hidden p-3 text-center text-gray-500 text-sm">
                             <i class="fas fa-spinner fa-spin mr-2"></i>Loading...
                         </div>
@@ -978,12 +998,14 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <!-- Track search field -->
                 <div id="track-search-container" class="relative w-full sm:w-2/3 hidden">
-                    <input type="text" id="track-search" placeholder="Search for a song (e.g. Stairway to Heaven)" class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none" autocomplete="off">
+                    <input type="text" id="track-search" placeholder="Search for a song (e.g. Stairway to Heaven)"
+                        class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none" autocomplete="off">
                     <!-- Track suggestions dropdown -->
-                    <div id="track-suggestions" class="absolute top-full left-0 right-0 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
+                    <div id="track-suggestions"
+                        class="absolute top-full left-0 right-0 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
                         <div id="track-suggestions-loading" class="hidden p-3 text-center text-gray-500 text-sm">
                             <i class="fas fa-spinner fa-spin mr-2"></i>Loading...
                         </div>
@@ -1009,9 +1031,11 @@
 
                 <!-- Best of search field -->
                 <div id="best-of-search-container" class="relative w-full sm:w-2/3 hidden">
-                    <input type="text" id="best-of-search" placeholder="Search artist for best songs (e.g. Queen)" class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none" autocomplete="off">
+                    <input type="text" id="best-of-search" placeholder="Search artist for best songs (e.g. Queen)"
+                        class="pro-input w-full px-3 py-2 text-sm rounded-lg focus:outline-none" autocomplete="off">
                     <!-- Best of suggestions dropdown -->
-                    <div id="best-of-suggestions" class="absolute top-full left-0 right-0 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
+                    <div id="best-of-suggestions"
+                        class="absolute top-full left-0 right-0 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
                         <div id="best-of-suggestions-loading" class="hidden p-3 text-center text-gray-500 text-sm">
                             <i class="fas fa-spinner fa-spin mr-2"></i>Loading...
                         </div>
@@ -1020,22 +1044,25 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <button id="search-button" class="pro-button w-full sm:w-1/4 py-2 px-4 text-sm rounded-lg">
                     <i class="fas fa-search"></i>Search
                 </button>
-                
+
                 <!-- Search History Button -->
                 <div class="relative">
-                    <button id="history-button" class="pro-button secondary py-2 px-3 text-sm rounded-lg" title="Search History">
+                    <button id="history-button" class="pro-button secondary py-2 px-3 text-sm rounded-lg"
+                        title="Search History">
                         <i class="fas fa-history"></i>
                     </button>
                     <!-- Search History Dropdown -->
-                    <div id="search-history-dropdown" class="absolute top-full right-0 w-80 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
+                    <div id="search-history-dropdown"
+                        class="absolute top-full right-0 w-80 pro-card mt-1 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto hidden">
                         <div class="p-3 border-b border-gray-200">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm font-medium text-gray-700">Recent Searches</span>
-                                <button id="clear-history-button" class="text-xs text-red-600 hover:text-red-800 transition-colors">
+                                <button id="clear-history-button"
+                                    class="text-xs text-red-600 hover:text-red-800 transition-colors">
                                     <i class="fas fa-trash mr-1"></i>Clear
                                 </button>
                             </div>
@@ -1060,7 +1087,8 @@
     <div id="app" class="pro-card w-full max-w-7xl flex flex-col md:flex-row h-[80vh] overflow-hidden">
 
         <!-- Favorites Menu (overlay) -->
-        <div id="favorites-overlay" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex items-center justify-center p-4">
+        <div id="favorites-overlay"
+            class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex items-center justify-center p-4">
             <div class="pro-card w-full max-w-4xl max-h-[80vh] flex flex-col">
                 <div class="flex items-center justify-between p-4 border-b border-gray-200">
                     <h2 class="text-lg font-semibold flex items-center">
@@ -1080,8 +1108,8 @@
                         <p class="text-sm">Add your favorite songs by clicking the hearts!</p>
                     </div>
                 </div>
-        </div>
-    </div>        <!-- Favorites Menu -->
+            </div>
+        </div> <!-- Favorites Menu -->
         <div id="favorites-menu" class="favorites-menu hidden">
             <div class="favorites-menu-item" id="export-favorites">
                 <i class="fas fa-download"></i>
@@ -1136,7 +1164,9 @@
         <!-- Column 3: Tracks List -->
         <div class="w-full md:w-1/3 bg-white scrollable-column">
             <div class="p-4 border-b border-gray-200">
-                <h2 id="tracks-title" class="text-2xl font-bold text-gray-800">Tracks</h2>
+                <h2 id="tracks-title"
+                    class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    Tracks</h2>
             </div>
             <ul id="track-list" class="space-y-2 p-4">
                 <!-- Tracks populated by JS -->
@@ -1148,7 +1178,8 @@
         </div>
 
         <!-- Floating Message Box -->
-        <div id="message-box" class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+        <div id="message-box"
+            class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50">
             Example message
         </div>
     </div>
@@ -1189,22 +1220,22 @@
         const loadingArtistsEl = document.getElementById('loading-artists');
         const noArtistSelectedEl = document.getElementById('no-artist-selected');
         const noAlbumSelectedEl = document.getElementById('no-album-selected');
-        
+
         // Elements for suggestions
         const searchSuggestionsEl = document.getElementById('search-suggestions');
         const suggestionsListEl = document.getElementById('suggestions-list');
         const suggestionsLoadingEl = document.getElementById('suggestions-loading');
-        
+
         // Elements for track suggestions
         const trackSuggestionsEl = document.getElementById('track-suggestions');
         const trackSuggestionsListEl = document.getElementById('track-suggestions-list');
         const trackSuggestionsLoadingEl = document.getElementById('track-suggestions-loading');
-        
+
         // Elements for best of suggestions
         const bestOfSuggestionsEl = document.getElementById('best-of-suggestions');
         const bestOfSuggestionsListEl = document.getElementById('best-of-suggestions-list');
         const bestOfSuggestionsLoadingEl = document.getElementById('best-of-suggestions-loading');
-        
+
         // Variables for suggestion control
         let suggestionTimeout;
         let trackSuggestionTimeout;
@@ -1215,22 +1246,22 @@
         let currentSuggestions = [];
         let currentTrackSuggestions = [];
         let currentBestOfSuggestions = [];
-        
+
         // Variables for favorites
         let favorites = [];
         let currentArtistName = '';
         let currentAlbumName = '';
-        
+
         // Variables for search history
         let searchHistory = [];
         const MAX_SEARCH_HISTORY = 12;
-        
+
         // Variables for theme
         let currentTheme = 'dark';
-        
+
         // Variables for random song
         let isGettingRandomSong = false;
-        
+
         // DOM elements for favorites
         const favoritesButtonEl = document.getElementById('favorites-button');
         const favoritesOverlayEl = document.getElementById('favorites-overlay');
@@ -1238,7 +1269,7 @@
         const favoritesListEl = document.getElementById('favorites-list');
         const noFavoritesEl = document.getElementById('no-favorites');
         const favoritesCountEl = document.getElementById('favorites-count');
-        
+
         // DOM elements for favorites menu
         const favoritesMenuToggleEl = document.getElementById('favorites-menu-toggle');
         const favoritesMenuEl = document.getElementById('favorites-menu');
@@ -1246,7 +1277,7 @@
         const importFavoritesEl = document.getElementById('import-favorites');
         const importFileInputEl = document.getElementById('import-file-input');
         const githubRepoEl = document.getElementById('github-repo');
-        
+
         // Popular music genres
         const musicGenres = [
             'rock', 'pop', 'jazz', 'blues', 'classical', 'electronic', 'metal', 'punk',
@@ -1266,15 +1297,15 @@
         ];
 
         // === RANDOM SONG FUNCTIONALITY ===
-        
+
         // Get a random song from MusicBrainz
         async function getRandomSong() {
             if (isGettingRandomSong) return;
-            
+
             isGettingRandomSong = true;
             const randomBtn = document.getElementById('random-song-btn');
             const originalContent = randomBtn.innerHTML;
-            
+
             try {
                 // Show loading state
                 randomBtn.classList.add('loading');
@@ -1283,58 +1314,58 @@
 
                 // Select a random genre
                 const randomGenre = musicGenres[Math.floor(Math.random() * musicGenres.length)];
-                
+
                 // Search for artists in that genre
                 showMessage(`Searching for ${randomGenre} artists...`);
                 const artistResponse = await fetch(
                     `${musicBrainzApiUrl}artist?query=tag:${encodeURIComponent(randomGenre)}&fmt=json&limit=50`,
                     { headers: { 'User-Agent': userAgent } }
                 );
-                
+
                 if (!artistResponse.ok) throw new Error('Failed to fetch artists');
                 const artistData = await artistResponse.json();
-                
+
                 if (!artistData.artists || artistData.artists.length === 0) {
                     throw new Error('No artists found for genre');
                 }
 
                 // Select random artist
                 const randomArtist = artistData.artists[Math.floor(Math.random() * artistData.artists.length)];
-                
+
                 // Update UI message
                 randomBtn.innerHTML = '<i class="fas fa-spinner"></i><span>Loading albums...</span>';
                 showMessage(`Found ${randomArtist.name}, loading albums...`);
-                
+
                 // Get albums for the artist
                 const albumResponse = await fetch(
                     `${musicBrainzApiUrl}release-group?artist=${randomArtist.id}&fmt=json&type=album&limit=20`,
                     { headers: { 'User-Agent': userAgent } }
                 );
-                
+
                 if (!albumResponse.ok) throw new Error('Failed to fetch albums');
                 const albumData = await albumResponse.json();
-                
+
                 if (!albumData['release-groups'] || albumData['release-groups'].length === 0) {
                     throw new Error('No albums found for artist');
                 }
 
                 // Select random album
                 const randomAlbum = albumData['release-groups'][Math.floor(Math.random() * albumData['release-groups'].length)];
-                
+
                 // Update UI message
                 randomBtn.innerHTML = '<i class="fas fa-spinner"></i><span>Loading tracks...</span>';
                 showMessage(`Loading tracks from "${randomAlbum.title}"...`);
-                
+
                 // Get tracks for the album
                 const trackResponse = await fetch(
                     `${musicBrainzApiUrl}release?release-group=${randomAlbum.id}&fmt=json&inc=recordings&status=official&limit=1`,
                     { headers: { 'User-Agent': userAgent } }
                 );
-                
+
                 if (!trackResponse.ok) throw new Error('Failed to fetch tracks');
                 const trackData = await trackResponse.json();
-                
-                if (!trackData.releases || trackData.releases.length === 0 || 
+
+                if (!trackData.releases || trackData.releases.length === 0 ||
                     !trackData.releases[0].media || trackData.releases[0].media.length === 0 ||
                     !trackData.releases[0].media[0].tracks || trackData.releases[0].media[0].tracks.length === 0) {
                     throw new Error('No tracks found for album');
@@ -1346,10 +1377,10 @@
                 // Show success state
                 randomBtn.innerHTML = '<i class="fas fa-check"></i><span>Found!</span>';
                 randomBtn.style.background = 'rgba(34, 197, 94, 0.9)';
-                
+
                 // Update the UI to show the random selection
                 updateUIWithRandomSelection(randomArtist, randomAlbum, randomTrack);
-                
+
                 // Show success message
                 showMessage(`Random song: "${randomTrack.title}" by ${randomArtist.name} from "${randomAlbum.title}"`);
 
@@ -1376,11 +1407,11 @@
             artistListEl.innerHTML = '';
             albumListEl.innerHTML = '';
             trackListEl.innerHTML = '';
-            
+
             // Set current names
             currentArtistName = artist.name;
             currentAlbumName = album.title;
-            
+
             // Create and display the random artist
             const artistItem = document.createElement('li');
             artistItem.className = 'list-item flex items-center justify-between p-4 bg-blue-50 border-l-4 border-blue-500 active-item';
@@ -1393,15 +1424,15 @@
                 </div>
             `;
             artistListEl.appendChild(artistItem);
-            
+
             // Update titles
             albumsTitleEl.textContent = `Albums by ${artist.name}`;
             tracksTitleEl.textContent = `Tracks from ${album.title}`;
-            
+
             // Show the selected states
             noArtistSelectedEl.style.display = 'none';
             noAlbumSelectedEl.style.display = 'none';
-            
+
             // Simulate loading albums and tracks
             setTimeout(() => {
                 // Add the random album
@@ -1416,7 +1447,7 @@
                     </div>
                 `;
                 albumListEl.appendChild(albumItem);
-                
+
                 // Add the random track
                 setTimeout(() => {
                     const isFavorite = isTrackFavorite(track.title, artist.name, album.title);
@@ -1458,7 +1489,7 @@
         }
 
         // === SEARCH HISTORY MANAGEMENT ===
-        
+
         // Load search history from localStorage
         function loadSearchHistory() {
             try {
@@ -1482,27 +1513,27 @@
         // Add search to history
         function addToSearchHistory(type, query) {
             if (!query || query.trim().length < 2) return;
-            
+
             const searchItem = {
                 type: type,
                 query: query.trim(),
                 timestamp: new Date().toISOString(),
                 displayName: getSearchDisplayName(type, query.trim())
             };
-            
+
             // Remove duplicates (same type and query)
-            searchHistory = searchHistory.filter(item => 
+            searchHistory = searchHistory.filter(item =>
                 !(item.type === type && item.query.toLowerCase() === query.toLowerCase())
             );
-            
+
             // Add to beginning
             searchHistory.unshift(searchItem);
-            
+
             // Limit to MAX_SEARCH_HISTORY items
             if (searchHistory.length > MAX_SEARCH_HISTORY) {
                 searchHistory = searchHistory.slice(0, MAX_SEARCH_HISTORY);
             }
-            
+
             saveSearchHistory();
         }
 
@@ -1539,20 +1570,20 @@
         function renderSearchHistory() {
             const historyListEl = document.getElementById('search-history-list');
             const noHistoryEl = document.getElementById('no-search-history');
-            
+
             if (searchHistory.length === 0) {
                 historyListEl.innerHTML = '';
                 noHistoryEl.classList.remove('hidden');
                 return;
             }
-            
+
             noHistoryEl.classList.add('hidden');
-            
+
             let html = '';
             searchHistory.forEach((item, index) => {
                 const timeAgo = getTimeAgo(new Date(item.timestamp));
                 const typeIcon = getSearchTypeIcon(item.type);
-                
+
                 html += `
                     <div class="history-item flex items-center justify-between p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors" 
                          data-type="${item.type}" data-query="${item.query.replace(/"/g, '&quot;')}">
@@ -1570,20 +1601,20 @@
                     </div>
                 `;
             });
-            
+
             historyListEl.innerHTML = html;
-            
+
             // Add event listeners for history items
             historyListEl.querySelectorAll('.history-item').forEach(item => {
                 item.addEventListener('click', (e) => {
                     if (e.target.closest('.remove-history-item')) return;
-                    
+
                     const type = item.dataset.type;
                     const query = item.dataset.query;
                     applyHistorySearch(type, query);
                 });
             });
-            
+
             // Add event listeners for remove buttons
             historyListEl.querySelectorAll('.remove-history-item').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -1619,7 +1650,7 @@
             const diffMins = Math.floor(diffMs / (1000 * 60));
             const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
             const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-            
+
             if (diffMins < 1) return 'just now';
             if (diffMins < 60) return `${diffMins}m ago`;
             if (diffHours < 24) return `${diffHours}h ago`;
@@ -1632,7 +1663,7 @@
             // Set the correct search type
             document.querySelector(`input[name="search-type"][value="${type}"]`).checked = true;
             handleSearchTypeChange();
-            
+
             // Set the query in the appropriate field
             if (type === 'artist') {
                 artistSearchEl.value = query;
@@ -1653,7 +1684,7 @@
                 hideBestOfSuggestions();
                 searchArtistBestOf(query);
             }
-            
+
             hideSearchHistory();
             showMessage(`Applied search: ${getSearchDisplayName(type, query)}`);
         }
@@ -1672,7 +1703,7 @@
                 showMessage('Search history is already empty');
                 return;
             }
-            
+
             if (confirm(`Clear all ${searchHistory.length} search history items?`)) {
                 searchHistory = [];
                 saveSearchHistory();
@@ -1680,7 +1711,7 @@
                 showMessage('Search history cleared');
             }
         }
-        
+
         // Load saved theme
         function loadTheme() {
             try {
@@ -1733,14 +1764,14 @@
             if (theme !== currentTheme) {
                 applyTheme(theme);
                 updateThemeSelector();
-                
+
                 const themeName = theme === 'dark' ? 'dark' : 'light';
                 showMessage(`${themeName} theme activated`);
             }
         }
 
         // === FAVORITES MANAGEMENT ===
-        
+
         // Load favorites from localStorage
         function loadFavorites() {
             try {
@@ -1771,18 +1802,18 @@
 
         // Check if a track is in favorites
         function isTrackFavorite(trackTitle, artist, album) {
-            return favorites.some(fav => 
-                fav.title === trackTitle && 
-                fav.artist === artist && 
+            return favorites.some(fav =>
+                fav.title === trackTitle &&
+                fav.artist === artist &&
                 fav.album === album
             );
         }
 
         // Add/remove a track from favorites
         function toggleFavorite(trackTitle, artist, album, buttonEl) {
-            const favoriteIndex = favorites.findIndex(fav => 
-                fav.title === trackTitle && 
-                fav.artist === artist && 
+            const favoriteIndex = favorites.findIndex(fav =>
+                fav.title === trackTitle &&
+                fav.artist === artist &&
                 fav.album === album
             );
 
@@ -1845,7 +1876,7 @@
             }
 
             noFavoritesEl.classList.add('hidden');
-            
+
             // Group by artist
             const groupedFavorites = favorites.reduce((groups, favorite) => {
                 const artist = favorite.artist;
@@ -1866,14 +1897,14 @@
                     <h3 class="text-base font-semibold text-gray-800 mb-2 flex items-center">
                         <i class="fas fa-user mr-2 text-blue-500 text-sm"></i>${artist}
                     </h3>`;
-                
+
                 Object.keys(groupedFavorites[artist]).forEach(album => {
                     html += `<div class="ml-3 mb-3">
                         <h4 class="text-sm font-medium text-gray-700 mb-1 flex items-center">
                             <i class="fas fa-compact-disc mr-1 text-green-500 text-xs"></i>${album}
                         </h4>
                         <div class="ml-3 space-y-1">`;
-                    
+
                     groupedFavorites[artist][album].forEach(favorite => {
                         html += `<div class="flex items-center justify-between p-2 bg-gray-50 rounded hover:bg-gray-100 transition-colors">
                             <div class="flex items-center space-x-2 flex-1 min-w-0">
@@ -1903,10 +1934,10 @@
                             </div>
                         </div>`;
                     });
-                    
+
                     html += '</div></div>';
                 });
-                
+
                 html += '</div>';
             });
 
@@ -1915,9 +1946,9 @@
 
         // Remove a favorite from the list
         function removeFavoriteFromList(trackTitle, artist, album) {
-            const favoriteIndex = favorites.findIndex(fav => 
-                fav.title === trackTitle && 
-                fav.artist === artist && 
+            const favoriteIndex = favorites.findIndex(fav =>
+                fav.title === trackTitle &&
+                fav.artist === artist &&
                 fav.album === album
             );
 
@@ -1926,7 +1957,7 @@
                 saveFavorites();
                 renderFavoritesList();
                 showMessage(`"${trackTitle}" removed from favorites`);
-                
+
                 // Also update the icon in the tracks list if visible
                 const currentTrackButtons = document.querySelectorAll('.favorite-btn');
                 currentTrackButtons.forEach(btn => {
@@ -1942,7 +1973,7 @@
         }
 
         // === FAVORITES MENU FUNCTIONS ===
-        
+
         // Toggle favorites menu visibility
         function toggleFavoritesMenu() {
             favoritesMenuEl.classList.toggle('hidden');
@@ -1963,22 +1994,22 @@
 
                 const dataStr = JSON.stringify(favorites, null, 2);
                 const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                
+
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(dataBlob);
                 link.download = `musicbrainz-favorites-${new Date().toISOString().split('T')[0]}.json`;
-                
+
                 // Trigger download
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                
+
                 // Clean up the blob URL
                 URL.revokeObjectURL(link.href);
-                
+
                 showMessage(`${favorites.length} favorites exported successfully!`);
                 hideFavoritesMenu();
-                
+
             } catch (error) {
                 console.error('Error exporting favorites:', error);
                 showMessage('Error exporting favorites. Please try again.');
@@ -1996,10 +2027,10 @@
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 try {
                     const importedData = JSON.parse(e.target.result);
-                    
+
                     // Validate the imported data
                     if (!Array.isArray(importedData)) {
                         throw new Error('Invalid file format: expected an array');
@@ -2007,10 +2038,10 @@
 
                     // Validate each favorite item
                     const validFavorites = importedData.filter(item => {
-                        return item && 
-                               typeof item.title === 'string' && 
-                               typeof item.artist === 'string' && 
-                               typeof item.album === 'string';
+                        return item &&
+                            typeof item.title === 'string' &&
+                            typeof item.artist === 'string' &&
+                            typeof item.album === 'string';
                     });
 
                     if (validFavorites.length === 0) {
@@ -2019,9 +2050,9 @@
 
                     // Ask user if they want to replace or merge
                     const shouldReplace = confirm(`Found ${validFavorites.length} favorites in file.\n\nClick OK to REPLACE current favorites (${favorites.length})\nClick Cancel to MERGE with current favorites`);
-                    
+
                     let importedCount = 0;
-                    
+
                     if (shouldReplace) {
                         // Replace all favorites
                         favorites = validFavorites.map(fav => ({
@@ -2032,12 +2063,12 @@
                     } else {
                         // Merge favorites (avoid duplicates)
                         validFavorites.forEach(newFav => {
-                            const exists = favorites.some(existingFav => 
-                                existingFav.title === newFav.title && 
-                                existingFav.artist === newFav.artist && 
+                            const exists = favorites.some(existingFav =>
+                                existingFav.title === newFav.title &&
+                                existingFav.artist === newFav.artist &&
                                 existingFav.album === newFav.album
                             );
-                            
+
                             if (!exists) {
                                 favorites.push({
                                     ...newFav,
@@ -2050,7 +2081,7 @@
 
                     saveFavorites();
                     hideFavoritesMenu();
-                    
+
                     if (importedCount > 0) {
                         showMessage(`Successfully imported ${importedCount} favorites!`);
                     } else {
@@ -2063,12 +2094,12 @@
                 }
             };
 
-            reader.onerror = function() {
+            reader.onerror = function () {
                 showMessage('Error reading file. Please try again.');
             };
 
             reader.readAsText(file);
-            
+
             // Reset the input
             event.target.value = '';
         }
@@ -2080,7 +2111,7 @@
             showMessage('Opening GitHub repository...');
             hideFavoritesMenu();
         }
-        
+
         // Base URL for MusicBrainz APIs
         const musicBrainzApiUrl = 'https://musicbrainz.org/ws/2/';
         const userAgent = 'SongsterrPlayerApp/1.0.0 (andrea.rossi@example.com)';
@@ -2108,7 +2139,7 @@
         // Handle search type change
         function handleSearchTypeChange() {
             const searchType = document.querySelector('input[name="search-type"]:checked').value;
-            
+
             // Hide all containers first
             artistSearchContainerEl.classList.add('hidden');
             trackSearchContainerEl.classList.add('hidden');
@@ -2118,7 +2149,7 @@
             hideSuggestions();
             hideTrackSuggestions();
             hideBestOfSuggestions();
-            
+
             // Show the selected container
             if (searchType === 'artist') {
                 artistSearchContainerEl.classList.remove('hidden');
@@ -2152,10 +2183,10 @@
                     headers: { 'User-Agent': userAgent }
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
-                
+
                 const data = await response.json();
                 const artists = data.artists || [];
-                
+
                 if (artists.length > 0) {
                     renderArtists(artists);
                     showMessage(`Found ${artists.length} artists for genre "${genre}"`);
@@ -2191,10 +2222,10 @@
                     headers: { 'User-Agent': userAgent }
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
-                
+
                 const data = await response.json();
                 const artists = data.artists || [];
-                
+
                 if (artists.length > 0) {
                     renderArtists(artists);
                     showMessage(`Found ${artists.length} artists for mood "${mood}"`);
@@ -2221,7 +2252,7 @@
             currentSuggestionIndex = -1;
             currentSuggestions = [];
         }
-        
+
         // Function to show/hide track suggestions
         function showTrackSuggestions() {
             trackSuggestionsEl.classList.remove('hidden');
@@ -2261,18 +2292,18 @@
                     headers: { 'User-Agent': userAgent }
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
-                
+
                 const data = await response.json();
                 const artists = data.artists || [];
-                
+
                 bestOfSuggestionsLoadingEl.classList.add('hidden');
-                
+
                 if (artists.length > 0) {
                     renderBestOfSuggestions(artists);
                 } else {
                     bestOfSuggestionsListEl.innerHTML = '<li class="p-4 text-gray-500 text-center">No artists found</li>';
                 }
-                
+
             } catch (error) {
                 console.error('Best of suggestion API call failed:', error);
                 bestOfSuggestionsLoadingEl.classList.add('hidden');
@@ -2284,11 +2315,11 @@
         function renderBestOfSuggestions(artists) {
             currentBestOfSuggestions = artists;
             bestOfSuggestionsListEl.innerHTML = '';
-            
+
             artists.forEach((artist, index) => {
                 const li = document.createElement('li');
                 li.className = 'suggestion-item flex items-center justify-between';
-                
+
                 // Get artist area/country info
                 let areaInfo = '';
                 if (artist.area && artist.area.name) {
@@ -2296,7 +2327,7 @@
                 } else if (artist['begin-area'] && artist['begin-area'].name) {
                     areaInfo = ` • ${artist['begin-area'].name}`;
                 }
-                
+
                 li.innerHTML = `
                     <div class="flex-1 p-3 cursor-pointer hover:bg-gray-50 transition-colors" 
                          onclick="selectBestOfSuggestion('${artist.name.replace(/'/g, "\\'")}', '${artist.id}')">
@@ -2306,7 +2337,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 bestOfSuggestionsListEl.appendChild(li);
             });
         }
@@ -2341,18 +2372,18 @@
                     headers: { 'User-Agent': userAgent }
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
-                
+
                 const data = await response.json();
                 const tracks = data.recordings || [];
-                
+
                 trackSuggestionsLoadingEl.classList.add('hidden');
-                
+
                 if (tracks.length > 0) {
                     renderTrackSuggestions(tracks);
                 } else {
                     trackSuggestionsListEl.innerHTML = '<li class="p-4 text-gray-500 text-center">No tracks found</li>';
                 }
-                
+
             } catch (error) {
                 console.error('Track suggestion API call failed:', error);
                 trackSuggestionsLoadingEl.classList.add('hidden');
@@ -2364,16 +2395,16 @@
         function renderTrackSuggestions(tracks) {
             currentTrackSuggestions = tracks;
             trackSuggestionsListEl.innerHTML = '';
-            
+
             tracks.forEach((track, index) => {
                 const li = document.createElement('li');
                 li.className = 'suggestion-item flex items-center justify-between';
-                
+
                 // Get artist name from artist-credit
-                const artistName = track['artist-credit'] && track['artist-credit'][0] 
-                    ? track['artist-credit'][0].name 
+                const artistName = track['artist-credit'] && track['artist-credit'][0]
+                    ? track['artist-credit'][0].name
                     : 'Unknown Artist';
-                    
+
                 li.innerHTML = `
                     <div class="flex flex-col">
                         <span class="font-medium text-gray-900">${track.title}</span>
@@ -2385,15 +2416,15 @@
                     </div>
                     <i class="fas fa-arrow-right text-gray-400"></i>
                 `;
-                
+
                 li.addEventListener('click', () => {
                     selectTrackSuggestion(track);
                 });
-                
+
                 li.addEventListener('mouseenter', () => {
                     highlightTrackSuggestion(index);
                 });
-                
+
                 trackSuggestionsListEl.appendChild(li);
             });
         }
@@ -2427,7 +2458,7 @@
 
             try {
                 let searchArtistId = artistId;
-                
+
                 // If no artistId provided, search for the artist first
                 if (!searchArtistId) {
                     const artistResponse = await fetch(
@@ -2435,14 +2466,14 @@
                         { headers: { 'User-Agent': userAgent } }
                     );
                     if (!artistResponse.ok) throw new Error('Failed to find artist');
-                    
+
                     const artistData = await artistResponse.json();
                     if (!artistData.artists || artistData.artists.length === 0) {
                         throw new Error('Artist not found');
                     }
                     searchArtistId = artistData.artists[0].id;
                 }
-                
+
                 // Step 1: Get the most important/popular releases (albums, compilations, greatest hits)
                 showMessage(`Searching for ${artistName}'s most popular releases...`);
                 const releasesResponse = await fetch(
@@ -2450,23 +2481,23 @@
                     { headers: { 'User-Agent': userAgent } }
                 );
                 if (!releasesResponse.ok) throw new Error('Failed to fetch releases');
-                
+
                 const releasesData = await releasesResponse.json();
                 let releaseGroups = releasesData['release-groups'] || [];
-                
+
                 // Prioritize greatest hits, best of, compilation albums
                 const bestOfKeywords = ['greatest hits', 'best of', 'essential', 'collection', 'gold', 'platinum', 'hits', 'anthology', 'complete'];
                 const priorityReleases = releaseGroups.filter(release => {
                     const title = release.title.toLowerCase();
                     return bestOfKeywords.some(keyword => title.includes(keyword));
                 });
-                
+
                 // If we have best-of albums, use those first, otherwise use regular albums
                 const targetReleases = priorityReleases.length > 0 ? priorityReleases.slice(0, 3) : releaseGroups.slice(0, 10);
-                
+
                 let allTracks = [];
                 let trackPopularityMap = new Map();
-                
+
                 // Step 2: Get tracks from the most important releases
                 for (const releaseGroup of targetReleases) {
                     try {
@@ -2474,18 +2505,18 @@
                             `${musicBrainzApiUrl}release?release-group=${releaseGroup.id}&fmt=json&inc=recordings&status=official&limit=1`,
                             { headers: { 'User-Agent': userAgent } }
                         );
-                        
+
                         if (tracksResponse.ok) {
                             const tracksData = await tracksResponse.json();
                             const releases = tracksData.releases || [];
-                            
+
                             if (releases.length > 0 && releases[0].media && releases[0].media.length > 0) {
                                 const tracks = releases[0].media[0].tracks || [];
-                                
+
                                 tracks.forEach(track => {
                                     if (track.title && track.title.length > 1) {
                                         const normalizedTitle = track.title.toLowerCase().trim();
-                                        
+
                                         // Count how many times this track appears (popularity indicator)
                                         if (trackPopularityMap.has(normalizedTitle)) {
                                             trackPopularityMap.set(normalizedTitle, trackPopularityMap.get(normalizedTitle) + 1);
@@ -2505,7 +2536,7 @@
                         console.log(`Error fetching tracks for ${releaseGroup.title}:`, error);
                     }
                 }
-                
+
                 // Step 3: If we don't have enough tracks, supplement with direct recording search
                 if (allTracks.length < 10) {
                     try {
@@ -2513,11 +2544,11 @@
                             `${musicBrainzApiUrl}recording?artist=${searchArtistId}&fmt=json&limit=30`,
                             { headers: { 'User-Agent': userAgent } }
                         );
-                        
+
                         if (recordingsResponse.ok) {
                             const recordingsData = await recordingsResponse.json();
                             const recordings = recordingsData.recordings || [];
-                            
+
                             recordings.forEach(recording => {
                                 const normalizedTitle = recording.title.toLowerCase().trim();
                                 if (!trackPopularityMap.has(normalizedTitle)) {
@@ -2534,7 +2565,7 @@
                         console.log('Error fetching additional recordings:', error);
                     }
                 }
-                
+
                 if (allTracks.length === 0) {
                     trackListEl.innerHTML = `
                         <div class="text-center text-gray-500 mt-20">
@@ -2546,35 +2577,35 @@
                     loadingArtistsEl.classList.add('hidden');
                     return;
                 }
-                
+
                 // Step 4: Sort tracks by popularity indicators
                 allTracks = allTracks.sort((a, b) => {
                     const aTitle = a.title.toLowerCase().trim();
                     const bTitle = b.title.toLowerCase().trim();
-                    
+
                     // Prioritize tracks from "best of" albums
                     if (a.isFromBestOf !== b.isFromBestOf) {
                         return b.isFromBestOf - a.isFromBestOf;
                     }
-                    
+
                     // Then by appearance count
                     const aCount = trackPopularityMap.get(aTitle) || 1;
                     const bCount = trackPopularityMap.get(bTitle) || 1;
                     if (bCount !== aCount) return bCount - aCount;
-                    
+
                     // Prefer tracks with more releases
                     const aReleases = a['release-count'] || 0;
                     const bReleases = b['release-count'] || 0;
                     if (bReleases !== aReleases) return bReleases - aReleases;
-                    
+
                     // Finally, prefer shorter titles (often more recognizable)
                     return a.title.length - b.title.length;
                 });
-                
+
                 // Remove duplicates and take top 15-20
                 const uniqueTracks = [];
                 const seenTitles = new Set();
-                
+
                 for (const track of allTracks) {
                     const normalizedTitle = track.title.toLowerCase().trim();
                     if (!seenTitles.has(normalizedTitle)) {
@@ -2583,14 +2614,14 @@
                         if (uniqueTracks.length >= 20) break;
                     }
                 }
-                
+
                 // Render the best of results
                 renderBestOfResults(uniqueTracks, artistName, trackPopularityMap);
                 showMessage(`Found ${uniqueTracks.length} popular songs by ${artistName}`);
-                
+
                 // Add to search history
                 addToSearchHistory('best-of', artistName);
-                
+
             } catch (error) {
                 console.error('API call failed:', error);
                 trackListEl.innerHTML = `
@@ -2609,20 +2640,20 @@
         // Render Best Of Results in Tracks Column
         function renderBestOfResults(recordings, artistName, popularityMap = new Map()) {
             trackListEl.innerHTML = '';
-            
+
             recordings.forEach((recording, index) => {
                 const isFavorite = isTrackFavorite(recording.title, artistName, 'Best of');
-                
+
                 // Get popularity indicators
                 const normalizedTitle = recording.title.toLowerCase().trim();
                 const appearances = popularityMap.get(normalizedTitle) || 1;
                 const releaseCount = recording['release-count'] || 0;
-                
+
                 // Determine source info
                 let sourceInfo = recording.sourceAlbum || 'Popular Track';
                 let sourceClass = 'text-gray-500';
                 let sourceIcon = 'fas fa-star';
-                
+
                 if (recording.isFromBestOf) {
                     sourceClass = 'text-yellow-600';
                     sourceIcon = 'fas fa-trophy';
@@ -2636,7 +2667,7 @@
                     sourceIcon = 'fas fa-compact-disc';
                     sourceInfo = `${releaseCount} releases`;
                 }
-                
+
                 const trackItem = document.createElement('li');
                 trackItem.className = 'track-item list-item flex items-center justify-between py-3 px-4 hover:bg-gray-50 transition-colors border-l-4 border-yellow-400 mb-2 rounded-r-lg';
                 trackItem.innerHTML = `
@@ -2676,7 +2707,7 @@
                 `;
                 trackListEl.appendChild(trackItem);
             });
-            
+
             // Add a small note at the bottom
             if (recordings.length > 0) {
                 const noteDiv = document.createElement('div');
@@ -2706,10 +2737,10 @@
                     headers: { 'User-Agent': userAgent }
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
-                
+
                 const data = await response.json();
                 const tracks = data.recordings || [];
-                
+
                 if (tracks.length > 0) {
                     renderTrackResults(tracks, query);
                     showMessage(`Found ${tracks.length} tracks matching "${query}"`);
@@ -2732,34 +2763,34 @@
         function renderTrackResults(tracks, query) {
             tracksTitleEl.textContent = `Search results for "${query}"`;
             trackListEl.innerHTML = '';
-            
+
             // Set info message for first two columns
             artistListEl.innerHTML = '<div class="text-center text-gray-500 mt-20"><i class="fas fa-search text-6xl mb-4 text-gray-300"></i><p class="text-lg font-medium mb-2">Track Search Mode</p><p class="text-sm">Results are shown in the Tracks column →</p></div>';
             albumListEl.innerHTML = '<div class="text-center text-gray-500 mt-20"><i class="fas fa-arrow-right text-6xl mb-4 text-gray-300"></i><p class="text-lg font-medium mb-2">Direct to Tracks</p><p class="text-sm">Browse results in the next column →</p></div>';
-            
+
             // Group tracks by artist for better organization
             const tracksByArtist = {};
             tracks.forEach(track => {
-                const artistName = track['artist-credit'] && track['artist-credit'][0] 
-                    ? track['artist-credit'][0].name 
+                const artistName = track['artist-credit'] && track['artist-credit'][0]
+                    ? track['artist-credit'][0].name
                     : 'Unknown Artist';
-                    
+
                 if (!tracksByArtist[artistName]) {
                     tracksByArtist[artistName] = [];
                 }
                 tracksByArtist[artistName].push(track);
             });
-            
+
             // Render grouped results in tracks column
             Object.keys(tracksByArtist).forEach((artistName, artistIndex) => {
                 const artistTracks = tracksByArtist[artistName];
-                
+
                 // Create artist header (collapsible)
                 const artistHeader = document.createElement('div');
                 artistHeader.className = 'mb-3';
-                
+
                 const artistHeaderButton = document.createElement('button');
-                artistHeaderButton.className = 'w-full text-left p-3 bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg hover:from-blue-100 hover:to-blue-150 transition-all duration-200';
+                artistHeaderButton.className = 'w-full text-left';
                 artistHeaderButton.innerHTML = `
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2">
@@ -2770,26 +2801,26 @@
                         <i class="fas fa-chevron-down text-blue-600 transition-transform duration-200" id="toggle-artist-${artistIndex}"></i>
                     </div>
                 `;
-                
+
                 const tracksContainer = document.createElement('div');
                 tracksContainer.className = 'mt-2 space-y-2';
                 tracksContainer.id = `tracks-container-${artistIndex}`;
-                
+
                 artistTracks.forEach((track, trackIndex) => {
                     // Get album name from releases
                     let albumName = 'Unknown Album';
                     if (track.releases && track.releases.length > 0) {
                         albumName = track.releases[0].title;
                     }
-                    
-                    const trackDuration = track.length ? 
+
+                    const trackDuration = track.length ?
                         `${Math.floor(track.length / 60000)}:${String(Math.floor((track.length % 60000) / 1000)).padStart(2, '0')}` : '';
-                    
+
                     const isFavorite = isTrackFavorite(track.title, artistName, albumName);
-                    
+
                     const trackItem = document.createElement('div');
                     trackItem.className = 'track-item pro-card p-3 ml-4 border-l-4 border-green-400 hover:border-green-500 transition-colors';
-                    
+
                     trackItem.innerHTML = `
                         <div class="flex items-center space-x-3">
                             <div class="flex-1 min-w-0">
@@ -2824,15 +2855,15 @@
                             </div>
                         </div>
                     `;
-                    
+
                     tracksContainer.appendChild(trackItem);
                 });
-                
+
                 // Add click event to toggle tracks visibility
                 let isExpanded = true; // Start expanded
                 artistHeaderButton.addEventListener('click', () => {
                     const toggleIcon = artistHeaderButton.querySelector(`#toggle-artist-${artistIndex}`);
-                    
+
                     if (isExpanded) {
                         tracksContainer.style.display = 'none';
                         toggleIcon.classList.remove('fa-chevron-down');
@@ -2847,7 +2878,7 @@
                         isExpanded = true;
                     }
                 });
-                
+
                 artistHeader.appendChild(artistHeaderButton);
                 artistHeader.appendChild(tracksContainer);
                 trackListEl.appendChild(artistHeader);
@@ -2871,18 +2902,18 @@
                     headers: { 'User-Agent': userAgent }
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
-                
+
                 const data = await response.json();
                 const artists = data.artists || [];
-                
+
                 suggestionsLoadingEl.classList.add('hidden');
-                
+
                 if (artists.length > 0) {
                     renderSuggestions(artists);
                 } else {
                     suggestionsListEl.innerHTML = '<li class="p-4 text-gray-500 text-center">No artists found</li>';
                 }
-                
+
             } catch (error) {
                 console.error('Suggestion API call failed:', error);
                 suggestionsLoadingEl.classList.add('hidden');
@@ -2894,7 +2925,7 @@
         function renderSuggestions(artists) {
             currentSuggestions = artists;
             suggestionsListEl.innerHTML = '';
-            
+
             artists.forEach((artist, index) => {
                 const li = document.createElement('li');
                 li.className = 'suggestion-item flex items-center justify-between';
@@ -2905,15 +2936,15 @@
                     </div>
                     <i class="fas fa-arrow-right text-gray-400"></i>
                 `;
-                
+
                 li.addEventListener('click', () => {
                     selectSuggestion(artist);
                 });
-                
+
                 li.addEventListener('mouseenter', () => {
                     highlightSuggestion(index);
                 });
-                
+
                 suggestionsListEl.appendChild(li);
             });
         }
@@ -2936,7 +2967,7 @@
         // Handle keyboard navigation
         function handleKeyNavigation(e) {
             const suggestions = document.querySelectorAll('#search-suggestions .suggestion-item');
-            
+
             if (suggestions.length === 0) return;
 
             switch (e.key) {
@@ -2945,7 +2976,7 @@
                     currentSuggestionIndex = Math.min(currentSuggestionIndex + 1, suggestions.length - 1);
                     highlightSuggestion(currentSuggestionIndex);
                     break;
-                    
+
                 case 'ArrowUp':
                     e.preventDefault();
                     currentSuggestionIndex = Math.max(currentSuggestionIndex - 1, -1);
@@ -2957,7 +2988,7 @@
                         });
                     }
                     break;
-                    
+
                 case 'Enter':
                     e.preventDefault();
                     if (currentSuggestionIndex >= 0 && currentSuggestions[currentSuggestionIndex]) {
@@ -2966,7 +2997,7 @@
                         searchButtonEl.click();
                     }
                     break;
-                    
+
                 case 'Escape':
                     hideSuggestions();
                     break;
@@ -2976,7 +3007,7 @@
         // Handle keyboard navigation for tracks
         function handleTrackKeyNavigation(e) {
             const suggestions = document.querySelectorAll('#track-suggestions .suggestion-item');
-            
+
             if (suggestions.length === 0) return;
 
             switch (e.key) {
@@ -2985,7 +3016,7 @@
                     currentTrackSuggestionIndex = Math.min(currentTrackSuggestionIndex + 1, suggestions.length - 1);
                     highlightTrackSuggestion(currentTrackSuggestionIndex);
                     break;
-                    
+
                 case 'ArrowUp':
                     e.preventDefault();
                     currentTrackSuggestionIndex = Math.max(currentTrackSuggestionIndex - 1, -1);
@@ -2997,7 +3028,7 @@
                         });
                     }
                     break;
-                    
+
                 case 'Enter':
                     e.preventDefault();
                     if (currentTrackSuggestionIndex >= 0 && currentTrackSuggestions[currentTrackSuggestionIndex]) {
@@ -3006,7 +3037,7 @@
                         searchButtonEl.click();
                     }
                     break;
-                    
+
                 case 'Escape':
                     hideTrackSuggestions();
                     break;
@@ -3016,7 +3047,7 @@
         // Handle keyboard navigation for best-of
         function handleBestOfKeyNavigation(e) {
             const suggestions = document.querySelectorAll('#best-of-suggestions .suggestion-item');
-            
+
             if (suggestions.length === 0) return;
 
             switch (e.key) {
@@ -3025,7 +3056,7 @@
                     currentBestOfSuggestionIndex = Math.min(currentBestOfSuggestionIndex + 1, suggestions.length - 1);
                     highlightBestOfSuggestion(currentBestOfSuggestionIndex);
                     break;
-                    
+
                 case 'ArrowUp':
                     e.preventDefault();
                     currentBestOfSuggestionIndex = Math.max(currentBestOfSuggestionIndex - 1, -1);
@@ -3037,7 +3068,7 @@
                         });
                     }
                     break;
-                    
+
                 case 'Enter':
                     e.preventDefault();
                     if (currentBestOfSuggestionIndex >= 0 && currentBestOfSuggestions[currentBestOfSuggestionIndex]) {
@@ -3046,7 +3077,7 @@
                         searchButtonEl.click();
                     }
                     break;
-                    
+
                 case 'Escape':
                     hideBestOfSuggestions();
                     break;
@@ -3072,10 +3103,10 @@
                     headers: { 'User-Agent': userAgent }
                 });
                 if (!response.ok) throw new Error('Network response was not ok');
-                
+
                 const data = await response.json();
                 const artists = data.artists || [];
-                
+
                 if (artists.length > 0) {
                     renderArtists(artists);
                 } else {
@@ -3093,7 +3124,7 @@
         // Main search function that determines the type
         function performSearch() {
             const searchType = document.querySelector('input[name="search-type"]:checked').value;
-            
+
             if (searchType === 'artist') {
                 const artistName = artistSearchEl.value.trim();
                 if (artistName) {
@@ -3159,9 +3190,9 @@
 
                 const data = await response.json();
                 const albums = data['release-groups'] || [];
-                
+
                 albumsTitleEl.textContent = `Albums by ${artistName}`;
-                
+
                 if (albums.length > 0) {
                     renderAlbums(albums);
                 } else {
@@ -3189,7 +3220,7 @@
                     headers: { 'User-Agent': userAgent }
                 });
                 if (!releasesResponse.ok) throw new Error('Network response for releases was not ok');
-                
+
                 const releasesData = await releasesResponse.json();
                 const releases = releasesData.releases || [];
 
@@ -3252,36 +3283,53 @@
             tracks.forEach(track => {
                 const li = document.createElement('li');
                 li.className = 'track-item list-item flex items-center justify-between py-2 px-3';
-                
+
                 const isFavorite = isTrackFavorite(track.title, getCurrentArtistName(), getCurrentAlbumName());
-                
+
                 li.innerHTML = `
-                    <div class="flex items-center space-x-3 flex-1 min-w-0">
-                        <div class="flex-1 min-w-0">
+                    <div class="flex flex-wrap items-center gap-2 flex-1 min-w-0">
+                        <div class="flex-1 min-w-0 pr-2">
                             <span class="text-gray-900 truncate text-sm font-medium" title="${track.title}">${track.title}</span>
                         </div>
-                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
-                                onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
-                                title="Songsterr Tabs">
-                            <i class="fas fa-guitar text-blue-500 text-sm"></i>
-                        </button>
-                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
-                                onclick="openYoutubeTutorial('${getCurrentArtistName().replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
-                                title="YouTube Tutorial">
-                            <i class="fab fa-youtube text-red-500 text-sm"></i>
-                        </button>
-                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
-                                onclick="openUltimateGuitar('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
-                                title="Ultimate Guitar Tabs">
-                            <i class="fas fa-music text-orange-500 text-sm"></i>
-                        </button>
-                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
-                                onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}', '${getCurrentAlbumName().replace(/'/g, "\\'")}', this)" 
-                                title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
-                            <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'} text-sm"></i>
-                        </button>
+                        <div class="flex flex-row flex-wrap gap-2 border-l border-gray-300 pl-2">
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="Songsterr Tabs">
+                                <i class="fas fa-guitar text-blue-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openYoutubeTutorial('${getCurrentArtistName().replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="YouTube Tutorial">
+                                <i class="fab fa-youtube text-red-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openYoutubeBackingTrack('${getCurrentArtistName().replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="YouTube Backing Track">
+                                <i class="fab fa-youtube text-red-500 text-sm"></i>
+                                <i class="fas fa-music text-blue-400 text-xs ml-1"></i>
+                                <span style="font-size:10px;margin-left:2px;">BT</span>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openUltimateGuitar('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="Ultimate Guitar Tabs">
+                                <i class="fas fa-music text-orange-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}', '${getCurrentAlbumName().replace(/'/g, "\\'")}', this)" 
+                                    title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                                <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'} text-sm"></i>
+                            </button>
+                        </div>
                     </div>
                 `;
+                // Open YouTube Backing Track
+                function openYoutubeBackingTrack(artist, track) {
+                    const searchQuery = `${artist} ${track} backing track`;
+                    const encodedQuery = encodeURIComponent(searchQuery);
+                    const youtubeUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
+                    window.open(youtubeUrl, '_blank');
+                    showMessage(`Searching for "${track}" backing track on YouTube...`);
+                }
                 trackListEl.appendChild(li);
             });
         }
@@ -3315,66 +3363,66 @@
 
         // Add event listeners
         searchButtonEl.addEventListener('click', performSearch);
-        
+
         // Event listener for search type change
         document.querySelectorAll('input[name="search-type"]').forEach(radio => {
             radio.addEventListener('change', handleSearchTypeChange);
         });
-        
+
         // Event listener for real-time search (artists only)
         artistSearchEl.addEventListener('input', (e) => {
             const searchType = document.querySelector('input[name="search-type"]:checked').value;
             if (searchType === 'artist') {
                 const query = e.target.value.trim();
-                
+
                 // Cancel previous timeout
                 if (suggestionTimeout) {
                     clearTimeout(suggestionTimeout);
                 }
-                
+
                 // Set new timeout to avoid too many requests
                 suggestionTimeout = setTimeout(() => {
                     fetchSuggestions(query);
                 }, 300); // Wait 300ms after last keystroke
             }
         });
-        
+
         // Event listener for real-time track search
         trackSearchEl.addEventListener('input', (e) => {
             const searchType = document.querySelector('input[name="search-type"]:checked').value;
             if (searchType === 'track') {
                 const query = e.target.value.trim();
-                
+
                 // Cancel previous timeout
                 if (trackSuggestionTimeout) {
                     clearTimeout(trackSuggestionTimeout);
                 }
-                
+
                 // Set new timeout to avoid too many requests
                 trackSuggestionTimeout = setTimeout(() => {
                     fetchTrackSuggestions(query);
                 }, 300); // Wait 300ms after last keystroke
             }
         });
-        
+
         // Event listener for real-time best-of search
         bestOfSearchEl.addEventListener('input', (e) => {
             const searchType = document.querySelector('input[name="search-type"]:checked').value;
             if (searchType === 'best-of') {
                 const query = e.target.value.trim();
-                
+
                 // Cancel previous timeout
                 if (bestOfSuggestionTimeout) {
                     clearTimeout(bestOfSuggestionTimeout);
                 }
-                
+
                 // Set new timeout to avoid too many requests
                 bestOfSuggestionTimeout = setTimeout(() => {
                     fetchBestOfSuggestions(query);
                 }, 300); // Wait 300ms after last keystroke
             }
         });
-        
+
         // Handle keyboard navigation
         artistSearchEl.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -3384,7 +3432,7 @@
                 handleKeyNavigation(e);
             }
         });
-        
+
         // Handle keyboard navigation for track search
         trackSearchEl.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -3394,7 +3442,7 @@
                 handleTrackKeyNavigation(e);
             }
         });
-        
+
         // Handle keyboard navigation for best-of search
         bestOfSearchEl.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -3404,7 +3452,7 @@
                 handleBestOfKeyNavigation(e);
             }
         });
-        
+
         // Handle Enter for genre
         genreSelectEl.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -3412,7 +3460,7 @@
                 performSearch();
             }
         });
-        
+
         // Hide suggestions when clicking outside
         document.addEventListener('click', (e) => {
             if (!e.target.closest('#artist-search') && !e.target.closest('#search-suggestions')) {
@@ -3428,7 +3476,7 @@
                 hideSearchHistory();
             }
         });
-        
+
         // Handle focus to show suggestions again if needed
         artistSearchEl.addEventListener('focus', () => {
             const searchType = document.querySelector('input[name="search-type"]:checked').value;
@@ -3439,7 +3487,7 @@
                 }
             }
         });
-        
+
         // Handle focus for track search
         trackSearchEl.addEventListener('focus', () => {
             const searchType = document.querySelector('input[name="search-type"]:checked').value;
@@ -3472,7 +3520,7 @@
                 hideSearchHistory();
             }
         });
-        
+
         document.getElementById('clear-history-button').addEventListener('click', (e) => {
             e.stopPropagation();
             clearSearchHistory();
@@ -3481,14 +3529,14 @@
         // Event listeners for favorites
         favoritesButtonEl.addEventListener('click', showFavorites);
         closeFavoritesEl.addEventListener('click', hideFavorites);
-        
+
         // Event listeners for favorites menu
         favoritesMenuToggleEl.addEventListener('click', toggleFavoritesMenu);
         exportFavoritesEl.addEventListener('click', exportFavorites);
         importFavoritesEl.addEventListener('click', importFavorites);
         importFileInputEl.addEventListener('change', handleFileImport);
         githubRepoEl.addEventListener('click', openGitHubRepo);
-        
+
         // Close favorites by clicking outside the window
         favoritesOverlayEl.addEventListener('click', (e) => {
             if (e.target === favoritesOverlayEl) {
@@ -3502,14 +3550,14 @@
                 hideFavorites();
             }
         });
-        
+
         // Close favorites menu when clicking outside
         document.addEventListener('click', (e) => {
             if (!e.target.closest('#favorites-menu') && !e.target.closest('#favorites-menu-toggle')) {
                 hideFavoritesMenu();
             }
         });
-        
+
         // Event listeners for theme selector
         document.querySelectorAll('.theme-option').forEach(option => {
             option.addEventListener('click', () => {
@@ -3517,10 +3565,10 @@
                 changeTheme(theme);
             });
         });
-        
+
         // Event listener for random song button
         document.getElementById('random-song-btn').addEventListener('click', getRandomSong);
-        
+
         // Initialize application
         document.addEventListener('DOMContentLoaded', () => {
             loadTheme(); // Load saved theme
@@ -3532,4 +3580,5 @@
         });
     </script>
 </body>
+
 </html>
