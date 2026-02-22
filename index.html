@@ -2693,6 +2693,13 @@
                                 <i class="fab fa-youtube text-red-500 text-sm"></i>
                             </button>
                             <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openYoutubeBackingTrack('${artistName.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', '${recording.title.replace(/'/g, "\\'").replace(/"/g, '&quot;')}'); event.stopPropagation();" 
+                                    title="YouTube Backing Track">
+                                <i class="fab fa-youtube text-red-500 text-sm"></i>
+                                <i class="fas fa-music text-blue-400 text-xs ml-1"></i>
+                                <span style="font-size:10px;margin-left:2px;">BT</span>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
                                     onclick="openUltimateGuitar('${recording.title.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', '${artistName.replace(/'/g, "\\'").replace(/"/g, '&quot;')}'); event.stopPropagation();" 
                                     title="Ultimate Guitar Tabs">
                                 <i class="fas fa-music text-orange-500 text-sm"></i>
@@ -2841,6 +2848,13 @@
                                         onclick="openYoutubeTutorial('${artistName.replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
                                         title="YouTube Tutorial">
                                     <i class="fab fa-youtube text-red-500 text-sm"></i>
+                                </button>
+                                <button class="pro-button secondary p-2 rounded-lg text-xs hover:bg-blue-50 hover:border-blue-200 transition-colors" 
+                                        onclick="openYoutubeBackingTrack('${artistName.replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                        title="YouTube Backing Track">
+                                    <i class="fab fa-youtube text-red-500 text-sm"></i>
+                                    <i class="fas fa-music text-blue-400 text-xs ml-1"></i>
+                                    <span style="font-size:10px;margin-left:2px;">BT</span>
                                 </button>
                                 <button class="pro-button secondary p-2 rounded-lg text-xs hover:bg-orange-50 hover:border-orange-200 transition-colors" 
                                         onclick="openUltimateGuitar('${track.title.replace(/'/g, "\\'")}', '${artistName.replace(/'/g, "\\'")}'); event.stopPropagation();" 
