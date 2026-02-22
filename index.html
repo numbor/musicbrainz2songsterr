@@ -3336,17 +3336,10 @@
                         </div>
                     </div>
                 `;
-                // Open YouTube Backing Track
-                function openYoutubeBackingTrack(artist, track) {
-                    const searchQuery = `${artist} ${track} backing track`;
-                    const encodedQuery = encodeURIComponent(searchQuery);
-                    const youtubeUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
-                    window.open(youtubeUrl, '_blank');
-                    showMessage(`Searching for "${track}" backing track on YouTube...`);
-                }
                 trackListEl.appendChild(li);
             });
         }
+
 
         // Open Songsterr URL
         function openSongsterr(title, artist) {
@@ -3364,6 +3357,15 @@
             const youtubeUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
             window.open(youtubeUrl, '_blank');
             showMessage(`Searching for "${track}" tutorial on YouTube...`);
+        }
+
+        // Open YouTube Backing Track (GLOBAL)
+        function openYoutubeBackingTrack(artist, track) {
+            const searchQuery = `${artist} ${track} backing track`;
+            const encodedQuery = encodeURIComponent(searchQuery);
+            const youtubeUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
+            window.open(youtubeUrl, '_blank');
+            showMessage(`Searching for "${track}" backing track on YouTube...`);
         }
 
         // Open Ultimate Guitar Tabs
