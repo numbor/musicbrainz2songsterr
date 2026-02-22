@@ -3287,35 +3287,39 @@
                 const isFavorite = isTrackFavorite(track.title, getCurrentArtistName(), getCurrentAlbumName());
 
                 li.innerHTML = `
-                    <div class="flex items-center space-x-3 flex-1 min-w-0">
-                        <div class="flex-1 min-w-0">
+                    <div class="flex flex-wrap items-center gap-2 flex-1 min-w-0">
+                        <div class="flex-1 min-w-0 pr-2">
                             <span class="text-gray-900 truncate text-sm font-medium" title="${track.title}">${track.title}</span>
                         </div>
-                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
-                                onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
-                                title="Songsterr Tabs">
-                            <i class="fas fa-guitar text-blue-500 text-sm"></i>
-                        </button>
-                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
-                                onclick="openYoutubeTutorial('${getCurrentArtistName().replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
-                                title="YouTube Tutorial">
-                            <i class="fab fa-youtube text-red-500 text-sm"></i>
-                        </button>
-                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
-                                onclick="openYoutubeBackingTrack('${getCurrentArtistName().replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
-                                title="YouTube Backing Track">
-                            <i class="fab fa-youtube text-blue-500 text-xs"></i><span style="font-size:10px;margin-left:2px;">BT</span>
-                        </button>
-                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
-                                onclick="openUltimateGuitar('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
-                                title="Ultimate Guitar Tabs">
-                            <i class="fas fa-music text-orange-500 text-sm"></i>
-                        </button>
-                        <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
-                                onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}', '${getCurrentAlbumName().replace(/'/g, "\\'")}', this)" 
-                                title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
-                            <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'} text-sm"></i>
-                        </button>
+                        <div class="flex flex-row flex-wrap gap-2 border-l border-gray-300 pl-2">
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openSongsterr('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="Songsterr Tabs">
+                                <i class="fas fa-guitar text-blue-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openYoutubeTutorial('${getCurrentArtistName().replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="YouTube Tutorial">
+                                <i class="fab fa-youtube text-red-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openYoutubeBackingTrack('${getCurrentArtistName().replace(/'/g, "\\'")}', '${track.title.replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="YouTube Backing Track">
+                                <i class="fab fa-youtube text-red-500 text-sm"></i>
+                                <i class="fas fa-music text-blue-400 text-xs ml-1"></i>
+                                <span style="font-size:10px;margin-left:2px;">BT</span>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="openUltimateGuitar('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}'); event.stopPropagation();" 
+                                    title="Ultimate Guitar Tabs">
+                                <i class="fas fa-music text-orange-500 text-sm"></i>
+                            </button>
+                            <button class="pro-button secondary p-1.5 rounded text-xs flex-shrink-0" 
+                                    onclick="toggleFavorite('${track.title.replace(/'/g, "\\'")}', '${getCurrentArtistName().replace(/'/g, "\\'")}', '${getCurrentAlbumName().replace(/'/g, "\\'")}', this)" 
+                                    title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                                <i class="fas fa-heart ${isFavorite ? 'text-red-500' : 'text-gray-400'} text-sm"></i>
+                            </button>
+                        </div>
                     </div>
                 `;
                 // Open YouTube Backing Track
