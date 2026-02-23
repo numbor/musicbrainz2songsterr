@@ -1145,6 +1145,25 @@
                 <i class="fas fa-info-circle text-4xl mb-4"></i>
                 <p>No artists found.</p>
             </div>
+            
+            <!-- Related Artists Section -->
+            <div id="related-artists-section" class="hidden border-t-2 border-gray-300 mt-4 pt-4">
+                <div class="px-4 py-2">
+                    <h3 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
+                        <i class="fas fa-link text-blue-600"></i>
+                        Similar Artists
+                    </h3>
+                </div>
+                <div id="loading-related" class="hidden text-center text-gray-400 py-4">
+                    <i class="fas fa-spinner fa-spin text-xl"></i>
+                </div>
+                <ul id="related-artists-list" class="divide-y divide-gray-200">
+                    <!-- Related artists populated by JS -->
+                </ul>
+                <div id="no-related-artists" class="text-center text-gray-400 text-sm py-4">
+                    <p>No similar artists found.</p>
+                </div>
+            </div>
         </div>
 
         <!-- Column 2: Albums List -->
@@ -1261,6 +1280,9 @@
 
         // Variables for random song
         let isGettingRandomSong = false;
+
+        // Variables for related artists
+        let currentArtistId = '';
 
         // DOM elements for favorites
         const favoritesButtonEl = document.getElementById('favorites-button');
@@ -3260,6 +3282,222 @@
             }
         }
 
+        // Function to get related artists via MusicBrainz
+        async function getRelatedArtists(artistId, artistName) {
+            console.log('Fetching related artists for:', artistName, artistId);
+            const relatedSection = document.getElementById('related-artists-section');
+            const loadingRelated = document.getElementById('loading-related');
+            const relatedList = document.getElementById('related-artists-list');
+            const noRelated = document.getElementById('no-related-artists');
+
+            // Show section and loading state
+            relatedSection.classList.remove('hidden');
+            loadingRelated.classList.remove('hidden');
+            relatedList.innerHTML = '';
+            noRelated.classList.add('hidden');
+
+            try {
+                // First try: get artist relationships (member-of, collaboration, etc.)
+                const url = `${musicBrainzApiUrl}artist/${artistId}?fmt=json&inc=relationships`;
+                const response = await fetch(url, {
+                    headers: { 'User-Agent': userAgent }
+                });
+
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const data = await response.json();
+                const relationships = data.relationships || [];
+                console.log('Relationships found:', relationships.length, relationships);
+
+                // Filter for related-artists relationships
+                const relatedRelationships = relationships.filter(rel =>
+                    rel['target-type'] === 'artist' && 
+                    (rel.type === 'collaboration' || 
+                     rel.type === 'member of' ||
+                     rel.type === 'performed with')
+                );
+
+                console.log('Related relationships:', relatedRelationships);
+
+                const artistURIs = new Set();
+                const relatedArtistsMap = {};
+
+                // Extract artist URIs from relationships
+                relatedRelationships.forEach(rel => {
+                    if (rel.artist && rel.artist.id && rel.artist.name) {
+                        if (rel.artist.name !== artistName) {
+                            relatedArtistsMap[rel.artist.id] = rel.artist.name;
+                        }
+                    } else if (rel.title) {
+                        artistURIs.add(rel.title);
+                    }
+                });
+
+                const relatedArtistsArray = Object.entries(relatedArtistsMap).map(([id, name]) => ({
+                    id,
+                    name
+                })).slice(0, 10);
+
+                if (relatedArtistsArray.length > 0) {
+                    renderRelatedArtists(relatedArtistsArray);
+                } else {
+                    // Fallback: search for artists by tags
+                    console.log('No direct relationships found, searching by tags...');
+                    await getRelatedArtistsByGenre(artistId, artistName);
+                }
+
+            } catch (error) {
+                console.error('API call failed:', error);
+                // Even on error, try the fallback method
+                await getRelatedArtistsByGenre(artistId, artistName);
+            }
+        }
+
+        // Alternative method: get related artists by searching similar tags/genres
+        async function getRelatedArtistsByGenre(artistId, artistName) {
+            const relatedList = document.getElementById('related-artists-list');
+            const noRelated = document.getElementById('no-related-artists');
+            const loadingRelated = document.getElementById('loading-related');
+
+            try {
+                console.log('Fetching tags for artist:', artistName, artistId);
+
+                // Get artist tags
+                const tagsUrl = `${musicBrainzApiUrl}artist/${artistId}?fmt=json&inc=tags+genres`;
+                const tagsResponse = await fetch(tagsUrl, {
+                    headers: { 'User-Agent': userAgent }
+                });
+
+                if (!tagsResponse.ok) {
+                    console.error('Tags fetch failed');
+                    throw new Error('Tags fetch failed');
+                }
+
+                const tagsData = await tagsResponse.json();
+                const tags = tagsData.tags || [];
+                const genres = tagsData.genres || [];
+                
+                console.log('Tags found:', tags.length, tags);
+                console.log('Genres found:', genres.length, genres);
+
+                // Combine tags and genres
+                const allTags = [...tags, ...genres];
+
+                if (allTags.length === 0) {
+                    console.log('No tags found, showing no results');
+                    loadingRelated.classList.add('hidden');
+                    relatedList.innerHTML = '';
+                    noRelated.classList.remove('hidden');
+                    return;
+                }
+
+                // Get top 2 tags with highest count
+                const topTags = allTags
+                    .sort((a, b) => (b.count || 0) - (a.count || 0))
+                    .slice(0, 2)
+                    .map(t => t.name);
+
+                console.log('Top tags for', artistName, ':', topTags);
+
+                if (topTags.length === 0) {
+                    loadingRelated.classList.add('hidden');
+                    relatedList.innerHTML = '';
+                    noRelated.classList.remove('hidden');
+                    return;
+                }
+
+                // Try multiple search strategies to find similar artists
+                const similarArtistsSet = new Map();
+
+                for (const tag of topTags) {
+                    try {
+                        // Search using tag in query
+                        const searchUrl = `${musicBrainzApiUrl}artist?query=tag:"${encodeURIComponent(tag)}"&fmt=json&limit=20`;
+                        console.log('Searching with tag:', tag);
+                        
+                        const searchResponse = await fetch(searchUrl, {
+                            headers: { 'User-Agent': userAgent }
+                        });
+
+                        if (searchResponse.ok) {
+                            const searchData = await searchResponse.json();
+                            const foundArtists = searchData.artists || [];
+                            console.log(`Found ${foundArtists.length} artists for tag "${tag}"`);
+
+                            foundArtists.forEach(artist => {
+                                if (artist.name !== artistName && artist.id && artist.name) {
+                                    similarArtistsSet.set(artist.id, {
+                                        id: artist.id,
+                                        name: artist.name
+                                    });
+                                }
+                            });
+                        }
+
+                        // Stop if we have enough
+                        if (similarArtistsSet.size >= 10) break;
+
+                    } catch (tagError) {
+                        console.error('Error searching for tag:', tag, tagError);
+                    }
+                }
+
+                const similarArtists = Array.from(similarArtistsSet.values()).slice(0, 10);
+
+                loadingRelated.classList.add('hidden');
+
+                console.log('Final similar artists:', similarArtists.length, similarArtists);
+
+                if (similarArtists.length > 0) {
+                    renderRelatedArtists(similarArtists);
+                } else {
+                    relatedList.innerHTML = '';
+                    noRelated.classList.remove('hidden');
+                }
+
+            } catch (error) {
+                console.error('getRelatedArtistsByGenre failed:', error);
+                loadingRelated.classList.add('hidden');
+                relatedList.innerHTML = '';
+                noRelated.classList.remove('hidden');
+            }
+        }
+
+        // Render related artists list
+        function renderRelatedArtists(relatedArtists) {
+            const relatedList = document.getElementById('related-artists-list');
+            const noRelated = document.getElementById('no-related-artists');
+            const loadingRelated = document.getElementById('loading-related');
+
+            loadingRelated.classList.add('hidden');
+
+            if (relatedArtists.length === 0) {
+                relatedList.innerHTML = '';
+                noRelated.classList.remove('hidden');
+                return;
+            }
+
+            noRelated.classList.add('hidden');
+            relatedList.innerHTML = '';
+
+            relatedArtists.forEach(artist => {
+                const li = document.createElement('li');
+                li.className = 'list-item p-3 text-sm cursor-pointer hover:bg-blue-100 transition-colors';
+                li.innerHTML = `
+                    <span class="text-gray-800 font-medium hover:text-blue-600">${artist.name}</span>
+                `;
+
+                li.addEventListener('click', () => {
+                    // Trigger search for related artist
+                    artistSearchEl.value = artist.name;
+                    searchArtists(artist.name);
+                    showMessage(`Loading ${artist.name}...`);
+                });
+
+                relatedList.appendChild(li);
+            });
+        }
+
         // Render Artist List
         function renderArtists(artists) {
             artistListEl.innerHTML = '';
@@ -3273,7 +3511,9 @@
                     });
                     li.classList.add('active-item');
                     currentArtistName = artist.name; // Track current artist
+                    currentArtistId = artist.id; // Track current artist ID
                     getArtistAlbums(artist.id, artist.name);
+                    getRelatedArtists(artist.id, artist.name); // Fetch related artists
                 });
                 artistListEl.appendChild(li);
             });
