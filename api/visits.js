@@ -9,36 +9,39 @@ export default async function handler(req, res) {
     }
 
     const workspace = 'numbor-musicbrainz';
-    const name = 'visits';
+    const name = 'visit';
     const apiKey = process.env.COUNTER_API_KEY;
 
-    const baseUrl = apiKey
-        ? `https://api.counterapi.dev/v2/${workspace}/${name}/up`
-        : `https://api.counterapi.dev/v1/${workspace}/${name}/up`;
+    if (!apiKey) {
+        console.error('COUNTER_API_KEY not configured');
+        return res.status(500).json({ error: 'API key not configured' });
+    }
 
+    // Use v2 API with Bearer authentication
     try {
-        const response = await fetch(baseUrl, apiKey ? {
+        const v2Url = `https://api.counterapi.dev/v2/${workspace}/${name}/up`;
+        const response = await fetch(v2Url, {
             headers: {
-                Authorization: `Bearer ${apiKey}`
+                'Authorization': `Bearer ${apiKey}`
             }
-        } : undefined);
+        });
 
         if (!response.ok) {
-            res.status(response.status).json({ error: 'CounterAPI error' });
-            return;
+            console.error('V2 API error:', response.status);
+            return res.status(response.status).json({ error: 'CounterAPI error' });
         }
 
         const payload = await response.json();
-        const value = typeof payload.data === 'number'
-            ? payload.data
-            : typeof payload.count === 'number'
-                ? payload.count
-                : typeof payload.value === 'number'
-                    ? payload.value
-                    : null;
+        const value = typeof payload.data === 'number' ? payload.data : null;
 
-        res.status(200).json({ count: value });
+        if (value === null) {
+            console.error('Invalid response from CounterAPI');
+            return res.status(500).json({ error: 'Invalid API response' });
+        }
+
+        return res.status(200).json({ count: value });
     } catch (error) {
-        res.status(500).json({ error: 'CounterAPI request failed' });
+        console.error('V2 API request failed:', error);
+        return res.status(500).json({ error: 'CounterAPI request failed' });
     }
 }
