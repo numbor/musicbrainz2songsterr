@@ -41,7 +41,7 @@ Additional features:
    ```
 
 2. **Open the application**:
-   Open `music.html` in your preferred browser or serve it through a local web server.
+   Open `index.html` in your preferred browser or serve it through a local web server.
 
 ### Serve with a local server (optional)
 
@@ -87,9 +87,22 @@ Then visit `http://localhost:8000` in your browser.
 
 ```
 .
-├── music.html          # Main application file (single-page app)
+├── api/
+│   └── visits.js      # Visit counter function (Vercel)
+├── index.html         # Main application file (single-page app)
 └── README.md          # Project documentation
 ```
+
+## 📈 Visit Counter (CounterAPI)
+
+The visit counter is served via a serverless function at `/api/visits` to avoid CORS issues and keep the API key off the client.
+
+### Vercel setup
+1. Deploy on Vercel (the `/api` folder is auto-wired).
+2. Add an environment variable:
+   - `COUNTER_API_KEY` (your CounterAPI key)
+
+If `COUNTER_API_KEY` is not set, the function falls back to CounterAPI v1 public mode.
 
 ## 🔧 Technologies Used
 
