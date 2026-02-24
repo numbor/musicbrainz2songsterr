@@ -219,29 +219,24 @@
             color: var(--primary-blue-dark);
         }
 
-        .visit-footer {
-            width: 100%;
-            max-width: 80rem;
-            margin-top: 1.25rem;
-            display: flex;
-            justify-content: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .visit-counter {
+        .footer-counter {
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 999px;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            padding: 0.4rem 0.9rem;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid var(--gray-200);
-            font-size: 0.75rem;
+            gap: 0.5rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
             color: var(--gray-600);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        .footer-counter .count {
+            color: var(--gray-900);
+            font-weight: 700;
         }
 
         /* Dark theme - Professional */
@@ -317,10 +312,15 @@
             color: #5eead4;
         }
 
-        body.dark-theme .visit-counter {
-            background: rgba(15, 23, 42, 0.65);
+        body.dark-theme .footer-counter {
+            background: rgba(15, 23, 42, 0.85);
             border-color: var(--gray-700);
-            color: var(--gray-300);
+            color: var(--gray-400);
+            box-shadow: none;
+        }
+
+        body.dark-theme .footer-counter .count {
+            color: var(--gray-100);
         }
 
         body.dark-theme .column-panel {
@@ -1465,10 +1465,11 @@
         </div>
     </div>
 
-    <footer class="visit-footer">
-        <div class="visit-counter">
+    <footer class="w-full max-w-7xl flex justify-center">
+        <div class="footer-counter">
             <i class="fas fa-chart-line"></i>
-            <span id="visit-counter">Loading visits...</span>
+            <span>Visits</span>
+            <span class="count" id="visit-count">--</span>
         </div>
     </footer>
 
@@ -1485,6 +1486,39 @@
                 messageBox.classList.add('opacity-0');
                 messageBox.classList.add('pointer-events-none');
             }, 3000);
+        }
+
+        async function updateVisitCounter() {
+            const counterEl = document.getElementById('visit-count');
+            if (!counterEl) return;
+
+            const workspace = 'numbor-musicbrainz';
+            const name = 'visits';
+            const url = `https://api.counterapi.dev/v1/${workspace}/${name}/up`;
+
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`CounterAPI error: ${response.status}`);
+                }
+
+                const payload = await response.json();
+                const value = typeof payload.data === 'number'
+                    ? payload.data
+                    : typeof payload.count === 'number'
+                        ? payload.count
+                        : typeof payload.value === 'number'
+                            ? payload.value
+                            : null;
+
+                counterEl.textContent = value !== null
+                    ? value.toLocaleString()
+                    : '--';
+            } catch (error) {
+                console.error('CounterAPI request failed:', error);
+                counterEl.textContent = '--';
+            }
         }
 
         // DOM Elements
@@ -1507,7 +1541,6 @@
         const noArtistsFoundEl = document.getElementById('no-artists-found');
         const loadingArtistsEl = document.getElementById('loading-artists');
         const noArtistSelectedEl = document.getElementById('no-artist-selected');
-        const visitCounterEl = document.getElementById('visit-counter');
         const noAlbumSelectedEl = document.getElementById('no-album-selected');
 
         // Elements for suggestions
@@ -3940,26 +3973,6 @@
 
         // Add event listeners
         searchButtonEl.addEventListener('click', performSearch);
-
-        async function updateVisitCounter() {
-            if (!visitCounterEl) return;
-            try {
-                const response = await fetch('https://counterapi.dev/api/v1/musicbrainz2songsterr/visits/up');
-                if (!response.ok) {
-                    throw new Error('Counter request failed');
-                }
-                const data = await response.json();
-                const count = data.count ?? data.value ?? data.total ?? data?.data?.count;
-                if (typeof count === 'number') {
-                    visitCounterEl.textContent = `${count} visits`;
-                } else {
-                    visitCounterEl.textContent = 'Visits unavailable';
-                }
-            } catch (error) {
-                visitCounterEl.textContent = 'Visits unavailable';
-            }
-        }
-
         updateVisitCounter();
 
         // Event listener for search type change
