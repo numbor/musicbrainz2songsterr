@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     }
 
     const workspace = 'numbor-musicbrainz';
-    const name = 'visit';
+    const name = 'visits2';
     const apiKey = process.env.COUNTER_API_KEY;
 
     if (!apiKey) {
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         }
 
         const payload = await response.json();
-        const value = typeof payload.data === 'number' ? payload.data : null;
+        const value = payload.data && typeof payload.data.up_count === 'number' ? payload.data.up_count : null;
 
         if (value === null) {
             console.error('Invalid response from CounterAPI');
