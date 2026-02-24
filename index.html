@@ -176,7 +176,7 @@
         }
 
         header h1 {
-            font-size: 2.05rem;
+            font-size: 1.85rem;
             line-height: 1.1;
             font-weight: 700;
         }
@@ -185,6 +185,38 @@
             font-size: 1.2rem;
             line-height: 1.2;
             font-weight: 600;
+        }
+
+        .brand-line {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            letter-spacing: 0.01em;
+        }
+
+        .brand-secondary {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+        }
+
+        .support-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            transition: color 0.2s ease;
+        }
+
+        .support-link:hover {
+            color: var(--primary-blue-dark);
         }
 
         /* Dark theme - Professional */
@@ -246,6 +278,18 @@
             background: rgba(15, 23, 42, 0.88);
             border-color: var(--gray-700);
             box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        body.dark-theme .brand-secondary {
+            color: var(--gray-400);
+        }
+
+        body.dark-theme .support-link {
+            color: var(--primary-blue-light);
+        }
+
+        body.dark-theme .support-link:hover {
+            color: #5eead4;
         }
 
         body.dark-theme .column-panel {
@@ -1081,25 +1125,23 @@
     <!-- Logo Header -->
     <header class="w-full max-w-7xl mb-8">
         <div class="text-center hero-card">
-            <div class="flex items-center justify-center mb-3">
+            <div class="flex items-center justify-center mb-2">
                 <div
                     class="logo-container bg-gradient-to-br from-emerald-600 to-amber-500 p-3 rounded-2xl shadow-lg mr-3">
                     <i class="fas fa-guitar text-white text-2xl"></i>
                 </div>
                 <div class="text-left">
                     <h1
-                        class="text-3xl font-bold bg-gradient-to-r from-slate-900 to-emerald-600 bg-clip-text text-transparent">
-                        MusicBrainz
+                        class="brand-line text-2xl font-bold bg-gradient-to-r from-slate-900 to-emerald-600 bg-clip-text text-transparent">
+                        <span>MusicBrainz</span>
+                        <span class="brand-secondary">Songsterr Player</span>
                     </h1>
-                    <h2 class="text-xl font-semibold text-gray-700">
-                        Songsterr Player
-                    </h2>
                 </div>
             </div>
-            <p class="text-gray-600 text-base mx-auto max-w-3xl">
-                Discover music by artist, track, genre, mood, or find the best songs through MusicBrainz and find guitar
-                tabs on Songsterr, Youtube and UG
-            </p>
+            <a class="support-link" href="https://buymeacoffee.com/numbor" target="_blank" rel="noopener">
+                <i class="fas fa-coffee"></i>
+                Buy me a coffee
+            </a>
         </div>
     </header>
 
@@ -3810,9 +3852,20 @@
         }
 
 
+        function buildSongsterrQuery(title, artist) {
+            const rawQuery = artist ? `${artist} ${title}` : title;
+            const normalized = rawQuery
+                .normalize('NFKD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^\w\s-]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+            return normalized;
+        }
+
         // Open Songsterr URL
         function openSongsterr(title, artist) {
-            const searchQuery = artist ? `${artist} ${title}` : title;
+            const searchQuery = buildSongsterrQuery(title, artist);
             const encodedQuery = encodeURIComponent(searchQuery);
             const url = `https://www.songsterr.com/a/wa/search?pattern=${encodedQuery}`;
             window.open(url, '_blank');
