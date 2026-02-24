@@ -219,19 +219,6 @@
             color: var(--primary-blue-dark);
         }
 
-        .footer-counter {
-            margin-top: 1.25rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--gray-500);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.4rem;
-        }
-
         /* Dark theme - Professional */
         body.dark-theme {
             background-color: var(--gray-900);
@@ -303,10 +290,6 @@
 
         body.dark-theme .support-link:hover {
             color: #5eead4;
-        }
-
-        body.dark-theme .footer-counter {
-            color: var(--gray-400);
         }
 
         body.dark-theme .column-panel {
@@ -1449,11 +1432,6 @@
             class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50">
             Example message
         </div>
-    </div>
-
-    <div class="footer-counter">
-        <i class="fas fa-chart-line"></i>
-        <span id="visit-counter">Visite: --</span>
     </div>
 
     <script>
@@ -3921,22 +3899,6 @@
             showMessage(`Searching for "${track}" tabs on Ultimate Guitar...`);
         }
 
-        function updateVisitCounter() {
-            const counterEl = document.getElementById('visit-counter');
-            if (!counterEl) return;
-
-            fetch('https://api.countapi.xyz/hit/musicbrainz2songsterr/visits')
-                .then(response => response.json())
-                .then(data => {
-                    if (typeof data.value === 'number') {
-                        counterEl.textContent = `Visite: ${data.value.toLocaleString('it-IT')}`;
-                    }
-                })
-                .catch(() => {
-                    counterEl.textContent = 'Visite: --';
-                });
-        }
-
         // Add event listeners
         searchButtonEl.addEventListener('click', performSearch);
 
@@ -4153,7 +4115,6 @@
             handleSearchTypeChange(); // Set initial state
             loadFavorites(); // Load saved favorites
             loadSearchHistory(); // Load search history
-            updateVisitCounter();
         });
     </script>
 </body>
