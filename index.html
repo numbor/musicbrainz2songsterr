@@ -923,6 +923,35 @@
             background: rgba(255, 255, 255, 0.7);
         }
 
+        .related-section {
+            padding: 12px 14px;
+            border: 1px dashed var(--gray-300);
+            border-radius: 14px;
+            background: rgba(248, 250, 252, 0.9);
+        }
+
+        .related-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .related-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--gray-700);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .related-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
         /* Dark theme list adjustments */
         body.dark-theme .list-item {
             border-color: var(--gray-700);
@@ -942,6 +971,15 @@
 
         body.dark-theme .list-item-compact {
             background: rgba(15, 23, 42, 0.6);
+        }
+
+        body.dark-theme .related-section {
+            border-color: var(--gray-700);
+            background: rgba(15, 23, 42, 0.7);
+        }
+
+        body.dark-theme .related-title {
+            color: var(--gray-200);
         }
 
         /* Compact track items */
@@ -1290,6 +1328,23 @@
             </div>
             <ul id="artist-list" class="p-3 space-y-3">
                 <!-- Artists populated by JS -->
+                <li id="related-artists-section" class="related-section hidden">
+                    <div class="related-header">
+                        <h3 class="related-title">
+                            <i class="fas fa-link text-blue-600"></i>
+                            Similar Artists
+                        </h3>
+                    </div>
+                    <div id="loading-related" class="hidden text-center text-gray-400 py-3 empty-state">
+                        <i class="fas fa-spinner fa-spin text-xl"></i>
+                    </div>
+                    <ul id="related-artists-list" class="related-list">
+                        <!-- Related artists populated by JS -->
+                    </ul>
+                    <div id="no-related-artists" class="text-center text-gray-400 text-sm py-3 empty-state">
+                        <p>No similar artists found.</p>
+                    </div>
+                </li>
             </ul>
             <div id="loading-artists" class="hidden text-center text-gray-500 mt-20 empty-state">
                 <i class="fas fa-spinner fa-spin text-4xl mb-4 empty-icon"></i>
@@ -1300,24 +1355,6 @@
                 <p>No artists found.</p>
             </div>
             
-            <!-- Related Artists Section -->
-            <div id="related-artists-section" class="hidden border-t-2 border-gray-300 mt-4 pt-4">
-                <div class="px-4 py-2">
-                    <h3 class="text-lg font-semibold text-gray-700 flex items-center gap-2">
-                        <i class="fas fa-link text-blue-600"></i>
-                        Similar Artists
-                    </h3>
-                </div>
-                <div id="loading-related" class="hidden text-center text-gray-400 py-4 empty-state">
-                    <i class="fas fa-spinner fa-spin text-xl"></i>
-                </div>
-                <ul id="related-artists-list" class="px-4 pb-4 space-y-2">
-                    <!-- Related artists populated by JS -->
-                </ul>
-                <div id="no-related-artists" class="text-center text-gray-400 text-sm py-4 empty-state">
-                    <p>No similar artists found.</p>
-                </div>
-            </div>
         </div>
 
         <!-- Column 2: Albums List -->
@@ -3652,7 +3689,32 @@
 
         // Render Artist List
         function renderArtists(artists) {
+            let relatedSection = document.getElementById('related-artists-section');
+            if (!relatedSection) {
+                relatedSection = document.createElement('li');
+                relatedSection.id = 'related-artists-section';
+                relatedSection.className = 'related-section hidden';
+                relatedSection.innerHTML = `
+                    <div class="related-header">
+                        <h3 class="related-title">
+                            <i class="fas fa-link text-blue-600"></i>
+                            Similar Artists
+                        </h3>
+                    </div>
+                    <div id="loading-related" class="hidden text-center text-gray-400 py-3 empty-state">
+                        <i class="fas fa-spinner fa-spin text-xl"></i>
+                    </div>
+                    <ul id="related-artists-list" class="related-list"></ul>
+                    <div id="no-related-artists" class="text-center text-gray-400 text-sm py-3 empty-state">
+                        <p>No similar artists found.</p>
+                    </div>
+                `;
+            }
             artistListEl.innerHTML = '';
+            if (relatedSection) {
+                relatedSection.classList.add('hidden');
+                artistListEl.appendChild(relatedSection);
+            }
             artists.forEach(artist => {
                 const li = document.createElement('li');
                 li.className = 'list-item flex items-center justify-between';
@@ -3664,10 +3726,18 @@
                     li.classList.add('active-item');
                     currentArtistName = artist.name; // Track current artist
                     currentArtistId = artist.id; // Track current artist ID
+                    if (relatedSection) {
+                        artistListEl.insertBefore(relatedSection, li.nextSibling);
+                        relatedSection.classList.remove('hidden');
+                    }
                     getArtistAlbums(artist.id, artist.name);
                     getRelatedArtists(artist.id, artist.name); // Fetch related artists
                 });
-                artistListEl.appendChild(li);
+                if (relatedSection && relatedSection.parentNode === artistListEl) {
+                    artistListEl.insertBefore(li, relatedSection);
+                } else {
+                    artistListEl.appendChild(li);
+                }
             });
         }
 
