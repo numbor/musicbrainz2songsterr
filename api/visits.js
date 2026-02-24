@@ -10,35 +10,27 @@ export default async function handler(req, res) {
 
     const workspace = 'numbor-musicbrainz';
     const name = 'visits';
-    const apiKey = process.env.COUNTER_API_KEY;
-
-    const baseUrl = apiKey
-        ? `https://api.counterapi.dev/v2/${workspace}/${name}/up`
-        : `https://api.counterapi.dev/v1/${workspace}/${name}/up`;
+    
+    // Use v1 public API (no auth required)
+    const baseUrl = `https://api.counterapi.dev/v1/${workspace}/${name}/up`;
 
     try {
-        const response = await fetch(baseUrl, apiKey ? {
-            headers: {
-                Authorization: `Bearer ${apiKey}`
-            }
-        } : undefined);
+        const response = await fetch(baseUrl);
 
         if (!response.ok) {
-            res.status(response.status).json({ error: 'CounterAPI error' });
+            console.error('CounterAPI error:', response.status, await response.text());
+            res.status(response.status).json({ error: 'CounterAPI error', status: response.status });
             return;
         }
 
         const payload = await response.json();
-        const value = typeof payload.data === 'number'
-            ? payload.data
-            : typeof payload.count === 'number'
-                ? payload.count
-                : typeof payload.value === 'number'
-                    ? payload.value
-                    : null;
+        const value = typeof payload.count === 'number'
+            ? payload.count
+            : null;
 
         res.status(200).json({ count: value });
     } catch (error) {
-        res.status(500).json({ error: 'CounterAPI request failed' });
+        console.error('CounterAPI request failed:', error);
+        res.status(500).json({ error: 'CounterAPI request failed', message: error.message });
     }
 }
