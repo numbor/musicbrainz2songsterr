@@ -1492,9 +1492,7 @@
             const counterEl = document.getElementById('visit-count');
             if (!counterEl) return;
 
-            const workspace = 'numbor-musicbrainz';
-            const name = 'visits';
-            const url = `https://api.counterapi.dev/v1/${workspace}/${name}/up`;
+            const url = '/api/visits';
 
             try {
                 const response = await fetch(url);
@@ -1504,13 +1502,7 @@
                 }
 
                 const payload = await response.json();
-                const value = typeof payload.data === 'number'
-                    ? payload.data
-                    : typeof payload.count === 'number'
-                        ? payload.count
-                        : typeof payload.value === 'number'
-                            ? payload.value
-                            : null;
+                const value = typeof payload.count === 'number' ? payload.count : null;
 
                 counterEl.textContent = value !== null
                     ? value.toLocaleString()
