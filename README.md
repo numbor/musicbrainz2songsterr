@@ -98,11 +98,31 @@ Then visit `http://localhost:8000` in your browser.
 The visit counter is served via a serverless function at `/api/visits` to avoid CORS issues and keep the API key off the client.
 
 ### Vercel setup
-1. Deploy on Vercel (the `/api` folder is auto-wired).
-2. Add an environment variable:
-   - `COUNTER_API_KEY` (your CounterAPI key)
 
-If `COUNTER_API_KEY` is not set, the function falls back to CounterAPI v1 public mode.
+1. **Deploy on Vercel**:
+   ```bash
+   vercel --prod
+   ```
+   The `/api` folder is automatically configured as serverless functions.
+
+2. **Configure environment variable**:
+   ```bash
+   # Add the API key for all environments
+   vercel env add COUNTER_API_KEY
+   ```
+   When prompted, enter your CounterAPI key and select all environments (Production, Preview, Development).
+
+3. **Get your CounterAPI key** (optional):
+   - Visit [counterapi.dev](https://counterapi.dev)
+   - Create a free account
+   - Generate an API key for v2 authentication
+   
+   **Note**: If `COUNTER_API_KEY` is not set, the function automatically falls back to CounterAPI v1 public mode (no authentication required).
+
+### How it works
+- **With API key**: Uses CounterAPI v2 with Bearer authentication (more secure)
+- **Without API key**: Falls back to CounterAPI v1 public endpoint
+- **CORS handled**: The serverless function proxies requests to avoid browser CORS issues
 
 ## 🔧 Technologies Used
 
